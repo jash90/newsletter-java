@@ -8,7 +8,7 @@ import retrofit2.http.POST;
  * Created by ideo7 on 01.06.2017.
  */
 
-public interface SignInterface {
-    @POST("user")
+public interface UserClient {
+    @POST("signIn/")
     Call<User> signIn(@Body User user);
 }
