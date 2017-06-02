@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Newsletter</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_myaccount">Moje Konto</string>
+    <string name="title_newsletter">Newsletter</string>
+    <string name="title_logout">Wyloguj</string>
+    <string name="title_registration">Jeśli nie masz jeszcze konta zarejestruj się na beinsured.pl</string>
+    <string name="title_link"><a href="http://www.beinsured.pl/pakiety/">Link</a></string>
 </resources>
