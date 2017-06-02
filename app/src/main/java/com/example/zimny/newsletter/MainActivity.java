@@ -24,6 +24,7 @@ import com.loopj.android.http.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import cz.msebera.android.httpclient.Header;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText loginEditText;
     private EditText passwordEditText;
     private TextView linkTextView;
+    private TextView text;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -71,8 +73,11 @@ public class MainActivity extends AppCompatActivity {
         passwordEditText = (EditText) findViewById(R.id.password);
         linkTextView = (TextView) findViewById(R.id.link);
         linkTextView.setMovementMethod(LinkMovementMethod.getInstance());
+        text = (TextView) findViewById(R.id.textView) ;
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        login();
+        getnewsletter(user.getLogin_token());
     }
     public void login()
     {
@@ -97,6 +102,38 @@ public class MainActivity extends AppCompatActivity {
                     user.setRefresh_token_exp(Timestamp.valueOf(jsonObject.getString("refresh_token_exp")));
 //                    mTextMessage.setText(user.toString());
                     String message = jsonObject.getString("message");
+                    Toast.makeText(getApplicationContext(),message,Toast.LENGTH_SHORT).show();
+                } catch (JSONException e) {
+                    Log.d("Error",e.getLocalizedMessage());
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+
+        });
+
+
+
+    }
+    public void getnewsletter(String login_token)
+    {
+        RequestParams requestParams = new RequestParams();
+        requestParams.add("apiKey", "2esde2#derdsr#RD");
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.addHeader("Authorization",login_token);
+        client.get("http://www.beinsured.t.test.ideo.pl/api/v1/1/pl/DefaultProfil/getListaNewsleter", requestParams, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                try {
+
+                    JSONObject jsonObject = new JSONObject(new String(responseBody));
+
+                    String message = jsonObject.getString("status");
                     Toast.makeText(getApplicationContext(),message,Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
                     Log.d("Error",e.getLocalizedMessage());

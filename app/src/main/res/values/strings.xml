@@ -5,4 +5,7 @@
     <string name="title_logout">Wyloguj</string>
     <string name="title_registration">Jeśli nie masz jeszcze konta zarejestruj się na beinsured.pl</string>
     <string name="title_link"><a href="http://www.beinsured.pl/pakiety/">Link</a></string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
