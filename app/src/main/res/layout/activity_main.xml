@@ -33,7 +33,6 @@
                 android:layout_height="wrap_content"
                 android:hint="Login"
                 android:id="@+id/login"
-                android:inputType="textPassword"
                 android:background="@drawable/round_corner_grey"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"

@@ -1,6 +1,7 @@
 package com.example.zimny.newsletter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -76,8 +77,8 @@ public class MainActivity extends AppCompatActivity {
         text = (TextView) findViewById(R.id.textView) ;
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        login();
-        getnewsletter(user.getLogin_token());
+        //login();
+      //  getnewsletter(user.getLogin_token());
     }
     public void login()
     {
@@ -103,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
 //                    mTextMessage.setText(user.toString());
                     String message = jsonObject.getString("message");
                     Toast.makeText(getApplicationContext(),message,Toast.LENGTH_SHORT).show();
+
                 } catch (JSONException e) {
                     Log.d("Error",e.getLocalizedMessage());
                 }
@@ -179,6 +181,9 @@ public class MainActivity extends AppCompatActivity {
                   //  mTextMessage.setText(user.toString());
                     String message = jsonObject.getString("message");
                     Toast.makeText(getApplicationContext(),message,Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getBaseContext(),Main2Activity.class);
+                    intent.putExtra("login_token",user.getLogin_token());
+                    startActivity(intent);
                 } catch (JSONException e) {
                     Log.d("Error",e.getLocalizedMessage());
                 }
