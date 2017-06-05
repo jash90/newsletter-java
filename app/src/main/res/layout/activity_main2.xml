@@ -5,15 +5,30 @@ xmlns:tools="http://schemas.android.com/tools"
 android:id="@+id/container"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-android:orientation="vertical"
 android:background="@android:color/white"
+android:orientation="vertical"
 tools:context="com.example.zimny.newsletter.MainActivity">
-    <Toolbar
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/toolbar">
+        android:layout_height="wrap_content">
 
-    </Toolbar>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:src="@drawable/icon_menu"
+            android:layout_gravity="right"
+            android:id="@+id/buttonImage"
+            android:onClick="Click"
+            />
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.Toolbar>
+    </FrameLayout>
 
 
     <TextView

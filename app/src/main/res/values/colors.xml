@@ -6,4 +6,5 @@
     <color name="plume">#922051</color>
     <color name="grey_font">#5a5b5b</color>
     <color name="grey_element">#f0f0f0</color>
+    <color name="black">#000000</color>
 </resources>

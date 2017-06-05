@@ -2,6 +2,7 @@ package com.example.zimny.newsletter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.PointerIcon;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -39,6 +43,7 @@ public class Main2Activity extends AppCompatActivity {
     private Integer pages;
     private RecyclerView rvNewsletter;
     private NewsletterAdapter adapter;
+    private ImageButton imageButton;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -72,8 +77,13 @@ public class Main2Activity extends AppCompatActivity {
         Intent intent = getIntent();
         String login_token = intent.getStringExtra("login_token");
         rvNewsletter= (RecyclerView) findViewById(R.id.newsletterRecycler);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.icon_beinsured);
+        toolbar.setLogo(R.drawable.icon_menu);
 
-
+        toolbar.setTitle("");
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         newsletters = new ArrayList<>();
@@ -82,6 +92,8 @@ public class Main2Activity extends AppCompatActivity {
         rvNewsletter.setLayoutManager(mLayoutManager);
         rvNewsletter.setItemAnimator(new DefaultItemAnimator());
         rvNewsletter.setAdapter(adapter);
+        imageButton = (ImageButton)findViewById(R.id.buttonImage);
+        imageButton.setColorFilter(R.color.black);
         getnewsletter(login_token);
 
     }
@@ -147,4 +159,7 @@ public class Main2Activity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
+    public void Click(View view) {
+        Toast.makeText(getApplicationContext(),"Cilck",Toast.LENGTH_SHORT).show();
+    }
 }
