@@ -1,11 +1,14 @@
 package com.example.zimny.newsletter;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -18,11 +21,13 @@ public class NewsletterAdapter extends RecyclerView.Adapter<NewsletterAdapter.My
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title, date;
+        public LinearLayout linearLayout;
 
         public MyViewHolder(View view) {
             super(view);
             title = (TextView) view.findViewById(R.id.title_newsletter);
             date = (TextView) view.findViewById(R.id.date);
+            linearLayout = (LinearLayout) view.findViewById(R.id.linearLayout);
         }
     }
 
@@ -43,7 +48,14 @@ public class NewsletterAdapter extends RecyclerView.Adapter<NewsletterAdapter.My
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Newsletter newsletter = newsletterList.get(position);
         holder.title.setText(newsletter.getName());
-        holder.date.setText(newsletter.getDate_send().toString());
+        holder.date.setText("data: "+new SimpleDateFormat("dd.MM.yyyy").format(newsletter.getDate_send()));
+        if (position %2 ==0)
+        {
+            holder.linearLayout.setBackgroundColor(Color.WHITE);
+        }
+        else {
+            holder.linearLayout.setBackgroundResource(R.color.grey_element);
+        }
     }
 
     @Override

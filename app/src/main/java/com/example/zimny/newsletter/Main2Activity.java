@@ -1,12 +1,17 @@
 package com.example.zimny.newsletter;
 
+import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -24,6 +29,8 @@ import java.util.List;
 
 
 import cz.msebera.android.httpclient.Header;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class Main2Activity extends AppCompatActivity {
 
@@ -32,15 +39,44 @@ public class Main2Activity extends AppCompatActivity {
     private Integer pages;
     private RecyclerView rvNewsletter;
     private NewsletterAdapter adapter;
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_myaccount:
+
+                    return true;
+                case R.id.navigation_newsletter:
+
+                    return true;
+                case R.id.navigation_logout:
+
+                    return true;
+            }
+            return false;
+        }
+
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/OpenSans-Regular.ttf")
+                .setFontAttrId(R.attr.fontPath)
+                .build()
+        );
         setContentView(R.layout.activity_main2);
         Intent intent = getIntent();
         String login_token = intent.getStringExtra("login_token");
         rvNewsletter= (RecyclerView) findViewById(R.id.newsletterRecycler);
-        newsletters = new ArrayList<>();
 
+
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        newsletters = new ArrayList<>();
         adapter = new NewsletterAdapter(newsletters);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         rvNewsletter.setLayoutManager(mLayoutManager);
@@ -49,7 +85,10 @@ public class Main2Activity extends AppCompatActivity {
         getnewsletter(login_token);
 
     }
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
     public void getnewsletter(String login_token) {
         RequestParams requestParams = new RequestParams();
         requestParams.add("apiKey", "2esde2#derdsr#RD");
