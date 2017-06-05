@@ -3,8 +3,10 @@ package com.example.zimny.newsletter;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -15,30 +17,37 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 
 import cz.msebera.android.httpclient.Header;
 
 public class Main2Activity extends AppCompatActivity {
 
-    private TextView text;
-    private ArrayList<Newsletter> newsletters;
+
+    private List<Newsletter> newsletters;
     private Integer pages;
+    private RecyclerView rvNewsletter;
+    private NewsletterAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-        text =(TextView)findViewById(R.id.textViewTest);
-        newsletters = new ArrayList<>();
         Intent intent = getIntent();
         String login_token = intent.getStringExtra("login_token");
+        rvNewsletter= (RecyclerView) findViewById(R.id.newsletterRecycler);
+        newsletters = new ArrayList<>();
+
+        adapter = new NewsletterAdapter(newsletters);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        rvNewsletter.setLayoutManager(mLayoutManager);
+        rvNewsletter.setItemAnimator(new DefaultItemAnimator());
+        rvNewsletter.setAdapter(adapter);
         getnewsletter(login_token);
+
     }
 
     public void getnewsletter(String login_token) {
@@ -52,10 +61,13 @@ public class Main2Activity extends AppCompatActivity {
                 try {
 
                     JSONObject jsonObject = new JSONObject(new String(responseBody));
+
                     String message = jsonObject.getString("status");
-                    text.setText(new String(responseBody));
-                    text.setText("");
+                    //
+                   // text.setText(new String(responseBody));
+                   // text.setText("");
                     JSONArray jsonArray = jsonObject.getJSONArray("data");
+                    ArrayList<Newsletter> newsletterArrayList = new ArrayList<Newsletter>();
                     for (int i=0;i<jsonArray.length();i++)
                     {
                         Newsletter n = new Newsletter();
@@ -63,12 +75,15 @@ public class Main2Activity extends AppCompatActivity {
                         n.setName(jsonArray.getJSONObject(i).getString("tytul"));
                         n.setDate_send(Timestamp.valueOf(jsonArray.getJSONObject(i).getString("data_wyslania")));
                         n.setTime_send(Time.valueOf(jsonArray.getJSONObject(i).getString("czas_wyslania")+":00"));
-
+                        Log.d("news",n.toString());
                         newsletters.add(n);
-                    }
-                    pages = Integer.parseInt(jsonObject.getString("pages"));
-                    //text.setText(pages);
 
+                    }
+                    //
+                    pages = Integer.parseInt(jsonObject.getString("pages"));
+                    //
+                    //text.setText(pages);
+                    adapter.notifyDataSetChanged();
 
                 } catch (JSONException e) {
                     Log.d("Error", e.getLocalizedMessage());
@@ -90,8 +105,7 @@ public class Main2Activity extends AppCompatActivity {
             }
 
         });
+        adapter.notifyDataSetChanged();
     }
-    public void getnewsletters(String login_token) {
 
-    }
 }

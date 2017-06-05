@@ -3,6 +3,7 @@ package com.example.zimny.newsletter;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 /**
  * Created by ideo7 on 05.06.2017.
@@ -13,6 +14,7 @@ public class Newsletter {
     private String name;
     private Timestamp date_send;
     private Time time_send;
+    private static int lastId = 0;
 
     public int getId() {
         return id;
@@ -46,6 +48,14 @@ public class Newsletter {
         this.time_send = time_send;
     }
 
+    public static int getLastId() {
+        return lastId;
+    }
+
+    public static void setLastId(int lastId) {
+        Newsletter.lastId = lastId;
+    }
+
     public Newsletter() {
     }
 
@@ -65,4 +75,6 @@ public class Newsletter {
                 ", time_send=" + time_send +
                 '}';
     }
+
+
 }
