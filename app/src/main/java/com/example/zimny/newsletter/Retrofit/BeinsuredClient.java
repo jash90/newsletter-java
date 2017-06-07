@@ -19,7 +19,7 @@ public interface BeinsuredClient {
             @Field("password") String password,
             @Field("apiKey") String apiKey);
 
-    @GET("DefaultProfil/getListaNewsleter?apiKey=2esde2#derdsr#RD/")
+    @GET("DefaultProfil/getListaNewsleter?apiKey=2esde2%23derdsr%23RD")
     Call<Newsletters> getNewsletter();
 
 }

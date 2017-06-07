@@ -16,11 +16,13 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.zimny.newsletter.Class.Newsletter;
 import com.example.zimny.newsletter.Retrofit.BeinsuredClient;
 import com.example.zimny.newsletter.Class.Newsletters;
 import com.example.zimny.newsletter.R;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 import okhttp3.Interceptor;
@@ -37,7 +39,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class Main2Activity extends AppCompatActivity {
 
 
-    private Newsletters newsletters;
+    private ArrayList<Newsletter> newsletterArrayList;
+    private String status;
     private Integer pages;
     private RecyclerView rvNewsletter;
     private NewsletterAdapter adapter;
@@ -83,14 +86,18 @@ public class Main2Activity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        //newsletters = new ArrayList<>();
-        adapter = new NewsletterAdapter(newsletters);
+        newsletterArrayList = new ArrayList<>();
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         rvNewsletter.setLayoutManager(mLayoutManager);
         rvNewsletter.setItemAnimator(new DefaultItemAnimator());
-        rvNewsletter.setAdapter(adapter);
         imageButton = (ImageButton)findViewById(R.id.buttonImage);
         imageButton.setColorFilter(R.color.black);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
+            }
+        });
         getnewsletter(login_token);
 
     }
@@ -121,9 +128,15 @@ public class Main2Activity extends AppCompatActivity {
             call.enqueue(new Callback<Newsletters>() {
                 @Override
                 public void onResponse(Call<Newsletters> call, Response<Newsletters> response) {
-                    if (response.body()!=null)
-                    newsletters = response.body();
-                    Log.d("ddd",response.body().toString());
+
+                    Newsletters newsletters = response.body();
+                    newsletterArrayList= newsletters.getData();
+                    pages=newsletters.getPages();
+                    status =newsletters.getStatus();
+                    Log.d("ddd",newsletterArrayList.toString());
+                    adapter = new NewsletterAdapter(newsletterArrayList);
+                    rvNewsletter.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
                 }
 
                 @Override
@@ -136,10 +149,10 @@ public class Main2Activity extends AppCompatActivity {
         {
             Log.d("error",ex.getLocalizedMessage());
         }
-        adapter.notifyDataSetChanged();
+       // adapter.notifyDataSetChanged();
     }
 
     public void Click(View view) {
-        Toast.makeText(getApplicationContext(),"Cilck",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(),"Click",Toast.LENGTH_SHORT).show();
     }
 }

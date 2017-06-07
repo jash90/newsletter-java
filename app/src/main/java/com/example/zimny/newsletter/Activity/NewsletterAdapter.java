@@ -2,6 +2,7 @@ package com.example.zimny.newsletter.Activity;
 
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import com.example.zimny.newsletter.Class.Newsletters;
 import com.example.zimny.newsletter.R;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 /**
  * Created by ideo7 on 05.06.2017.
@@ -20,7 +22,7 @@ import java.text.SimpleDateFormat;
 
 public class NewsletterAdapter extends RecyclerView.Adapter<NewsletterAdapter.MyViewHolder> {
 
-    private Newsletters newsletters = new Newsletters();
+    private ArrayList<Newsletter> newsletters;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title, date;
@@ -35,7 +37,7 @@ public class NewsletterAdapter extends RecyclerView.Adapter<NewsletterAdapter.My
     }
 
 
-    public NewsletterAdapter(Newsletters newsletterList) {
+    public NewsletterAdapter(ArrayList<Newsletter> newsletterList) {
         this.newsletters = newsletterList;
     }
 
@@ -49,9 +51,11 @@ public class NewsletterAdapter extends RecyclerView.Adapter<NewsletterAdapter.My
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Newsletter newsletter = newsletters.getData().get(position);
+        Newsletter newsletter = newsletters.get(position);
+        if (newsletter!=null)
         holder.title.setText(newsletter.getTytul());
-        holder.date.setText("data: "+new SimpleDateFormat("dd.MM.yyyy").format(newsletter.getData_wyslania()));
+        holder.date.setText("data: "+newsletter.getData_wyslania());
+        Log.d("ddd",newsletter.toString());
         if (position %2 ==0)
         {
             holder.linearLayout.setBackgroundColor(Color.WHITE);
@@ -63,6 +67,6 @@ public class NewsletterAdapter extends RecyclerView.Adapter<NewsletterAdapter.My
 
     @Override
     public int getItemCount() {
-        return newsletters.getData().size();
+        return newsletters.size();
     }
 }

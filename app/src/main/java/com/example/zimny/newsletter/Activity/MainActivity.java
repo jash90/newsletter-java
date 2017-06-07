@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                     user = response.body();
                     Log.d("dddd",user.toString());
                     if (user!=null) {
-                        Toast.makeText(MainActivity.this, user.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, user.getMessage(), Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(MainActivity.this, Main2Activity.class);
                         intent.putExtra("login_token", user.getLogin_token());
                         startActivity(intent);
