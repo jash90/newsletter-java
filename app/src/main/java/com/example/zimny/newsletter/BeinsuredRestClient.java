@@ -7,7 +7,7 @@ import android.os.AsyncTask;
 
 import com.loopj.android.http.*;
 public class BeinsuredRestClient{
-    private static final String BASE_URL = "http://www.beinsured.t.test.ideo.pl/api/v1/1/pl/RestAuth/signIn/";
+    private static final String BASE_URL = "http://www.beinsured.t.test.ideo.pl/api/v1/1/pl/RestAuth/";
 
     private static AsyncHttpClient client = new AsyncHttpClient();
 
