@@ -1,4 +1,4 @@
-package com.example.zimny.newsletter;
+package com.example.zimny.newsletter.Activity;
 
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
@@ -8,8 +8,11 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.zimny.newsletter.Class.Newsletter;
+import com.example.zimny.newsletter.Class.Newsletters;
+import com.example.zimny.newsletter.R;
+
 import java.text.SimpleDateFormat;
-import java.util.List;
 
 /**
  * Created by ideo7 on 05.06.2017.
@@ -17,7 +20,7 @@ import java.util.List;
 
 public class NewsletterAdapter extends RecyclerView.Adapter<NewsletterAdapter.MyViewHolder> {
 
-    private List<Newsletter> newsletterList;
+    private Newsletters newsletters = new Newsletters();
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title, date;
@@ -32,8 +35,8 @@ public class NewsletterAdapter extends RecyclerView.Adapter<NewsletterAdapter.My
     }
 
 
-    public NewsletterAdapter(List<Newsletter> newsletterList) {
-        this.newsletterList = newsletterList;
+    public NewsletterAdapter(Newsletters newsletterList) {
+        this.newsletters = newsletterList;
     }
 
     @Override
@@ -46,9 +49,9 @@ public class NewsletterAdapter extends RecyclerView.Adapter<NewsletterAdapter.My
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Newsletter newsletter = newsletterList.get(position);
-        holder.title.setText(newsletter.getName());
-        holder.date.setText("data: "+new SimpleDateFormat("dd.MM.yyyy").format(newsletter.getDate_send()));
+        Newsletter newsletter = newsletters.getData().get(position);
+        holder.title.setText(newsletter.getTytul());
+        holder.date.setText("data: "+new SimpleDateFormat("dd.MM.yyyy").format(newsletter.getData_wyslania()));
         if (position %2 ==0)
         {
             holder.linearLayout.setBackgroundColor(Color.WHITE);
@@ -60,6 +63,6 @@ public class NewsletterAdapter extends RecyclerView.Adapter<NewsletterAdapter.My
 
     @Override
     public int getItemCount() {
-        return newsletterList.size();
+        return newsletters.getData().size();
     }
 }

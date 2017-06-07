@@ -1,14 +1,20 @@
-package com.example.zimny.newsletter;
+package com.example.zimny.newsletter.Class;
 
-import java.util.List;
+import com.example.zimny.newsletter.Class.Newsletter;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
 
 /**
  * Created by ideo7 on 05.06.2017.
  */
 
 public class Newsletters {
+    @SerializedName("status")
     private String status;
-    private List<Newsletter> newsletters;
+    @SerializedName("data")
+    private ArrayList<Newsletter> data = new ArrayList<>();
+    @SerializedName("pages")
     private int pages;
 
     public String getStatus() {
@@ -19,12 +25,12 @@ public class Newsletters {
         this.status = status;
     }
 
-    public List<Newsletter> getNewsletters() {
-        return newsletters;
+    public ArrayList<Newsletter> getData() {
+        return data;
     }
 
-    public void setNewsletters(List<Newsletter> newsletters) {
-        this.newsletters = newsletters;
+    public void setData(ArrayList<Newsletter> data) {
+        this.data = data;
     }
 
     public int getPages() {
@@ -38,9 +44,9 @@ public class Newsletters {
     public Newsletters() {
     }
 
-    public Newsletters(String status, List<Newsletter> newsletters, int pages) {
+    public Newsletters(String status, ArrayList<Newsletter> newsletters, int pages) {
         this.status = status;
-        this.newsletters = newsletters;
+        this.data = newsletters;
         this.pages = pages;
     }
 
@@ -48,7 +54,7 @@ public class Newsletters {
     public String toString() {
         return "Newsletters{" +
                 "status='" + status + '\'' +
-                ", newsletters=" + newsletters +
+                ", data=" + data +
                 ", pages=" + pages +
                 '}';
     }

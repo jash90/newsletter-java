@@ -1,4 +1,4 @@
-package com.example.zimny.newsletter;
+package com.example.zimny.newsletter.Retrofit;
 
 
 import java.io.IOException;

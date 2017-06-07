@@ -1,4 +1,6 @@
-package com.example.zimny.newsletter;
+package com.example.zimny.newsletter.Retrofit;
+
+import com.example.zimny.newsletter.Retrofit.AuthenticationInterceptor;
 
 import cz.msebera.android.httpclient.util.TextUtils;
 import okhttp3.Credentials;
@@ -12,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceGenerator {
 
-    public static final String API_BASE_URL = "http://www.beinsured.t.test.ideo.pl/api/v1/1/pl/RestAuth";
+    public static final String API_BASE_URL = "http://www.beinsured.t.test.ideo.pl/api/v1/1/pl/";
 
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 

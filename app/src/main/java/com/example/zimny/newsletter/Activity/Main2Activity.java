@@ -1,8 +1,7 @@
-package com.example.zimny.newsletter;
+package com.example.zimny.newsletter.Activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -13,33 +12,32 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.PointerIcon;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
+import com.example.zimny.newsletter.Retrofit.BeinsuredClient;
+import com.example.zimny.newsletter.Class.Newsletters;
+import com.example.zimny.newsletter.R;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
 
 
-import cz.msebera.android.httpclient.Header;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class Main2Activity extends AppCompatActivity {
 
 
-    private List<Newsletter> newsletters;
+    private Newsletters newsletters;
     private Integer pages;
     private RecyclerView rvNewsletter;
     private NewsletterAdapter adapter;
@@ -81,12 +79,11 @@ public class Main2Activity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.icon_beinsured);
         toolbar.setLogo(R.drawable.icon_menu);
-
         toolbar.setTitle("");
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        newsletters = new ArrayList<>();
+        //newsletters = new ArrayList<>();
         adapter = new NewsletterAdapter(newsletters);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         rvNewsletter.setLayoutManager(mLayoutManager);
@@ -101,61 +98,44 @@ public class Main2Activity extends AppCompatActivity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
-    public void getnewsletter(String login_token) {
-        RequestParams requestParams = new RequestParams();
-        requestParams.add("apiKey", "2esde2#derdsr#RD");
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.addHeader("Authtoken", login_token);
-        client.get("http://www.beinsured.t.test.ideo.pl/api/v1/1/pl/DefaultProfil/getListaNewsleter?", requestParams, new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                try {
+    public void getnewsletter(final String login_token) {
+        try {
+            Log.d("dddd",login_token);
+            OkHttpClient.Builder okbuilder = new OkHttpClient.Builder();
+            okbuilder.addInterceptor(new Interceptor() {
+                @Override
+                public okhttp3.Response intercept(Chain chain) throws IOException {
+                    Request request = chain.request();
+                    Request.Builder newrequest = request.newBuilder().addHeader("Authtoken",login_token);
+                    return chain.proceed(newrequest.build());
+                }
+            });
 
-                    JSONObject jsonObject = new JSONObject(new String(responseBody));
-
-                    String message = jsonObject.getString("status");
-                    //
-                   // text.setText(new String(responseBody));
-                   // text.setText("");
-                    JSONArray jsonArray = jsonObject.getJSONArray("data");
-                    ArrayList<Newsletter> newsletterArrayList = new ArrayList<Newsletter>();
-                    for (int i=0;i<jsonArray.length();i++)
-                    {
-                        Newsletter n = new Newsletter();
-                        n.setId(jsonArray.getJSONObject(i).getInt("id"));
-                        n.setName(jsonArray.getJSONObject(i).getString("tytul"));
-                        n.setDate_send(Timestamp.valueOf(jsonArray.getJSONObject(i).getString("data_wyslania")));
-                        n.setTime_send(Time.valueOf(jsonArray.getJSONObject(i).getString("czas_wyslania")+":00"));
-                        Log.d("news",n.toString());
-                        newsletters.add(n);
-
-                    }
-                    //
-                    pages = Integer.parseInt(jsonObject.getString("pages"));
-                    //
-                    //text.setText(pages);
-                    adapter.notifyDataSetChanged();
-
-                } catch (JSONException e) {
-                    Log.d("Error", e.getLocalizedMessage());
+            Retrofit.Builder builder = new Retrofit.Builder()
+                    .baseUrl("http://www.beinsured.t.test.ideo.pl/api/v1/1/pl/")
+                    .client(okbuilder.build())
+                    .addConverterFactory(GsonConverterFactory.create());
+            Retrofit retrofit = builder.build();
+            BeinsuredClient beinsuredClient = retrofit.create(BeinsuredClient.class);
+            Call<Newsletters> call = beinsuredClient.getNewsletter();
+            call.enqueue(new Callback<Newsletters>() {
+                @Override
+                public void onResponse(Call<Newsletters> call, Response<Newsletters> response) {
+                    if (response.body()!=null)
+                    newsletters = response.body();
+                    Log.d("ddd",response.body().toString());
                 }
 
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                try {
-                    JSONObject jsonObject = new JSONObject(new String(responseBody));
-                } catch (JSONException e) {
-                    Log.d("Error", e.getLocalizedMessage());
-
-                    Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                @Override
+                public void onFailure(Call<Newsletters> call, Throwable t) {
+                    Log.d("error",t.getLocalizedMessage());
                 }
-
-            }
-
-        });
+            });
+        }
+        catch (Exception ex)
+        {
+            Log.d("error",ex.getLocalizedMessage());
+        }
         adapter.notifyDataSetChanged();
     }
 
