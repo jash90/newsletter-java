@@ -45,6 +45,7 @@ public class Main2Activity extends AppCompatActivity {
     private RecyclerView rvNewsletter;
     private NewsletterAdapter adapter;
     private ImageButton imageButton;
+    private static String login_token;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -76,7 +77,7 @@ public class Main2Activity extends AppCompatActivity {
         );
         setContentView(R.layout.activity_main2);
         Intent intent = getIntent();
-        String login_token = intent.getStringExtra("login_token");
+        login_token = intent.getStringExtra("login_token");
         rvNewsletter= (RecyclerView) findViewById(R.id.newsletterRecycler);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -92,20 +93,13 @@ public class Main2Activity extends AppCompatActivity {
         rvNewsletter.setItemAnimator(new DefaultItemAnimator());
         imageButton = (ImageButton)findViewById(R.id.buttonImage);
         imageButton.setColorFilter(R.color.black);
-        imageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                
-            }
-        });
-        getnewsletter(login_token);
-
+        getListNewsletter(login_token);
     }
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
-    public void getnewsletter(final String login_token) {
+    public void getListNewsletter(final String login_token) {
         try {
             Log.d("dddd",login_token);
             OkHttpClient.Builder okbuilder = new OkHttpClient.Builder();
@@ -124,7 +118,7 @@ public class Main2Activity extends AppCompatActivity {
                     .addConverterFactory(GsonConverterFactory.create());
             Retrofit retrofit = builder.build();
             BeinsuredClient beinsuredClient = retrofit.create(BeinsuredClient.class);
-            Call<Newsletters> call = beinsuredClient.getNewsletter();
+            Call<Newsletters> call = beinsuredClient.getListNewsletter();
             call.enqueue(new Callback<Newsletters>() {
                 @Override
                 public void onResponse(Call<Newsletters> call, Response<Newsletters> response) {
@@ -154,5 +148,13 @@ public class Main2Activity extends AppCompatActivity {
 
     public void Click(View view) {
         Toast.makeText(getApplicationContext(),"Click",Toast.LENGTH_SHORT).show();
+    }
+
+    public static String getLogin_token() {
+        return login_token;
+    }
+
+    public static void setLogin_token(String login_token) {
+        Main2Activity.login_token = login_token;
     }
 }

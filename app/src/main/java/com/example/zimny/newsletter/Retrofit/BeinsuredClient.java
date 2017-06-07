@@ -1,5 +1,7 @@
 package com.example.zimny.newsletter.Retrofit;
 
+import com.example.zimny.newsletter.Class.Newsletter;
+import com.example.zimny.newsletter.Class.NewsletterContent;
 import com.example.zimny.newsletter.Class.Newsletters;
 import com.example.zimny.newsletter.Class.User;
 
@@ -20,6 +22,10 @@ public interface BeinsuredClient {
             @Field("apiKey") String apiKey);
 
     @GET("DefaultProfil/getListaNewsleter?apiKey=2esde2%23derdsr%23RD")
-    Call<Newsletters> getNewsletter();
+    Call<Newsletters> getListNewsletter();
+
+    @GET("DefaultProfil/getNewsleter?apiKey=2esde2%23derdsr%23RD&newsletter=10")
+    Call<NewsletterContent> getNewsletter();
+
 
 }
