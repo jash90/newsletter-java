@@ -1,4 +1,4 @@
-package com.example.zimny.newsletter.Class;
+package com.example.zimny.newsletter.Model;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -6,18 +6,19 @@ import com.google.gson.annotations.SerializedName;
  * Created by ideo7 on 07.06.2017.
  */
 
-class Pozycja {
-    @SerializedName("tytul")
-    private String tytul;
+public class Element22 {
+
+    @SerializedName("typ")
+    private int typ;
     @SerializedName("kotwica")
     private int kotwica;
 
-    public String getTytul() {
-        return tytul;
+    public int getTyp() {
+        return typ;
     }
 
-    public void setTytul(String tytul) {
-        this.tytul = tytul;
+    public void setTyp(int typ) {
+        this.typ = typ;
     }
 
     public int getKotwica() {
@@ -28,18 +29,19 @@ class Pozycja {
         this.kotwica = kotwica;
     }
 
-    public Pozycja() {
+    public Element22() {
     }
 
-    public Pozycja(String tytul, int kotwica) {
-        this.tytul = tytul;
+    public Element22(int typ, int kotwica) {
+
+        this.typ = typ;
         this.kotwica = kotwica;
     }
 
     @Override
     public String toString() {
-        return "Pozycja{" +
-                "tytul='" + tytul + '\'' +
+        return "Element22{" +
+                " typ=" + typ +
                 ", kotwica=" + kotwica +
                 '}';
     }

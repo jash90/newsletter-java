@@ -1,4 +1,4 @@
-package com.example.zimny.newsletter.Class;
+package com.example.zimny.newsletter.Model;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -6,13 +6,19 @@ import com.google.gson.annotations.SerializedName;
  * Created by ideo7 on 07.06.2017.
  */
 
-public class Baner extends Element{
+public class Baner extends Element22 {
     @SerializedName("tresc")
     private String tresc;
     @SerializedName("image")
     private Image image;
     @SerializedName("baner_link")
     private String baner_link;
+    @SerializedName("id_aktualnosci")
+    private int id_aktualnosci;
+    @SerializedName("autor")
+    private String autor;
+    @SerializedName("publikator")
+    private String publikator;
 
     public String getTresc() {
         return tresc;

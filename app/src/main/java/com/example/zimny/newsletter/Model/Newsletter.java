@@ -1,11 +1,6 @@
-package com.example.zimny.newsletter.Class;
+package com.example.zimny.newsletter.Model;
 
 import com.google.gson.annotations.SerializedName;
-
-import java.sql.Date;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.util.ArrayList;
 
 /**
  * Created by ideo7 on 05.06.2017.

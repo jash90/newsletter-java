@@ -1,4 +1,4 @@
-package com.example.zimny.newsletter.Class;
+package com.example.zimny.newsletter.Model;
 
 
 import com.google.gson.annotations.SerializedName;

@@ -1,12 +1,18 @@
-package com.example.zimny.newsletter.Retrofit;
+package com.example.zimny.newsletter.Api;
 
-import com.example.zimny.newsletter.Retrofit.AuthenticationInterceptor;
+import com.facebook.stetho.Stetho;
+import com.facebook.stetho.okhttp3.StethoInterceptor;
+
+import java.io.IOException;
 
 import cz.msebera.android.httpclient.util.TextUtils;
 import okhttp3.Credentials;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
 
 /**
  * Created by ideo7 on 07.06.2017.
@@ -20,12 +26,17 @@ public class ServiceGenerator {
 
     private static Retrofit.Builder builder =
             new Retrofit.Builder()
-                    .baseUrl(API_BASE_URL)
+                    .baseUrl("http://www.beinsured.t.test.ideo.pl/api/v1/1/pl/")
+                    .client(httpClient.build())
                     .addConverterFactory(GsonConverterFactory.create());
 
     private static Retrofit retrofit = builder.build();
 
     public static <S> S createService(Class<S> serviceClass) {
+
+        httpClient.addNetworkInterceptor(new StethoInterceptor());
+        builder.client(httpClient.build());
+        retrofit = builder.build();
         return createService(serviceClass, null, null);
     }
 
@@ -36,7 +47,18 @@ public class ServiceGenerator {
             String authToken = Credentials.basic(username, password);
             return createService(serviceClass, authToken);
         }
+        httpClient.addInterceptor(new Interceptor() {
+            @Override
+            public okhttp3.Response intercept(Chain chain) throws IOException {
+                Request request = chain.request();
+                Request.Builder newrequest = request.newBuilder();
+                return chain.proceed(newrequest.build());
+            }
+        });
 
+        httpClient.addNetworkInterceptor(new StethoInterceptor());
+        builder.client(httpClient.build());
+        retrofit = builder.build();
         return createService(serviceClass, null, null);
     }
 
@@ -46,9 +68,17 @@ public class ServiceGenerator {
             AuthenticationInterceptor interceptor =
                     new AuthenticationInterceptor(authToken);
 
+            httpClient.addInterceptor(new Interceptor() {
+                @Override
+                public okhttp3.Response intercept(Chain chain) throws IOException {
+                    Request request = chain.request();
+                    Request.Builder newrequest = request.newBuilder();
+                    return chain.proceed(newrequest.build());
+                }
+            });
             if (!httpClient.interceptors().contains(interceptor)) {
                 httpClient.addInterceptor(interceptor);
-
+                httpClient.addNetworkInterceptor(new StethoInterceptor());
                 builder.client(httpClient.build());
                 retrofit = builder.build();
             }

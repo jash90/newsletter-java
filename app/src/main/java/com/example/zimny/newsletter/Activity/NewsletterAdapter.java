@@ -1,6 +1,7 @@
 package com.example.zimny.newsletter.Activity;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,15 +9,13 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.zimny.newsletter.Class.Aktualnosc;
-import com.example.zimny.newsletter.Class.Baner;
-import com.example.zimny.newsletter.Class.Element;
-import com.example.zimny.newsletter.Class.Sekcja;
-import com.example.zimny.newsletter.Class.Wiadomosc;
+import com.example.zimny.newsletter.Model.Aktualnosc;
+import com.example.zimny.newsletter.Model.Baner;
+import com.example.zimny.newsletter.Model.Element;
+import com.example.zimny.newsletter.Model.Sekcja;
+import com.example.zimny.newsletter.Model.Wiadomosc;
 import com.example.zimny.newsletter.R;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -115,21 +114,35 @@ public class NewsletterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if (element != null) {
             switch (element.getTyp()) {
                 case 0: {
-                    Sekcja sekcja = (Sekcja) element;
-                    SekcjaHolder sekcjaHolder = (SekcjaHolder) holder;
-                    if (sekcjaHolder.tytul!=null)
-                    sekcjaHolder.tytul.setText(sekcja.getTytul());
+                    try {
+                        Sekcja sekcja = element.toSekcja();
+
+                        SekcjaHolder sekcjaHolder = (SekcjaHolder) holder;
+                        if (sekcjaHolder.tytul != null)
+                            sekcjaHolder.tytul.setText(sekcja.getTytul());
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.d("dddd",ex.getLocalizedMessage());
+                    }
                 }
                 case 1: {
-                    Wiadomosc wiadomosc = (Wiadomosc) element;
+                    try{
+                    Wiadomosc wiadomosc = element.toWiadomosc();
                     WiadomoscHolder wiadomoscHolder = (WiadomoscHolder) holder;
                     if (wiadomoscHolder.tytul!=null)
                     wiadomoscHolder.tytul.setText(wiadomosc.getTytul());
                     if (wiadomoscHolder.tresc!=null)
                     wiadomoscHolder.tresc.loadData(wiadomosc.getTresc(), "text/html", null);
                 }
+                    catch (Exception ex)
+                {
+                    Log.d("dddd",ex.getLocalizedMessage());
+                }
+                }
                 case 2: {
-                    Aktualnosc aktualnosc = (Aktualnosc) element;
+                    try {
+                    Aktualnosc aktualnosc = element.toAktualnosc();
                     AktualnoscHolder aktualnoscHolder = (AktualnoscHolder) holder;
                     if (aktualnoscHolder.tresc_aktualnosci != null)
                         aktualnoscHolder.tresc_aktualnosci.loadData(aktualnosc.getTresc(), "text/html", null);
@@ -145,10 +158,16 @@ public class NewsletterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     aktualnoscHolder.publikator_aktualnosci.setText(aktualnosc.getPublikator());
                     if (aktualnoscHolder.tytul_aktualnosci!=null)
                     aktualnoscHolder.tytul_aktualnosci.setText(aktualnosc.getTytul());
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.d("dddd",ex.getLocalizedMessage());
+                    }
 
                 }
                 case 3: {
-                    Baner baner = (Baner) element;
+                    try {
+                    Baner baner = element.toBaner();
                     BanerHolder banerHolder = (BanerHolder) holder;
                     if (baner.getTresc() != null)
                         banerHolder.tresc.setText(baner.getTresc());
@@ -157,6 +176,11 @@ public class NewsletterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         banerHolder.obrazek.getLayoutParams().width = baner.getImage().getWidth();
                         banerHolder.obrazek.requestLayout();
                         Picasso.with(banerHolder.obrazek.getContext()).load(baner.getImage().getLink()).into(banerHolder.obrazek);
+                    }
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.d("dddd",ex.getLocalizedMessage());
                     }
                 }
             }

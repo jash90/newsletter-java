@@ -1,6 +1,5 @@
-package com.example.zimny.newsletter.Class;
+package com.example.zimny.newsletter.Model;
 
-import com.example.zimny.newsletter.Class.Newsletter;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;

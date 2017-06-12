@@ -1,4 +1,4 @@
-package com.example.zimny.newsletter.Retrofit;
+package com.example.zimny.newsletter.Api;
 
 
 import java.io.IOException;
@@ -23,10 +23,11 @@ public class AuthenticationInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Request original = chain.request();
 
-        Request.Builder builder = original.newBuilder();
-              //  .header("Authorization", authToken);
+        Request.Builder builder = original.newBuilder()
+              .header("Authtoken", authToken);
 
         Request request = builder.build();
         return chain.proceed(request);
     }
+
 }
