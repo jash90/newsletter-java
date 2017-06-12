@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<User> call, Response<User> response) {
                     user = response.body();
-   //                 Log.d("dddd",user.toString());
+                    Log.d("dddd",user.toString());
                     if (user!=null) {
                         Toast.makeText(MainActivity.this, user.getMessage(), Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(MainActivity.this, ListNewslettersActivity.class);
