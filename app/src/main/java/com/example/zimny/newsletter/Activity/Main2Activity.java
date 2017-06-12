@@ -43,7 +43,7 @@ public class Main2Activity extends AppCompatActivity {
     private String status;
     private Integer pages;
     private RecyclerView rvNewsletter;
-    private NewsletterAdapter adapter;
+    private NewslettersAdapter adapter;
     private ImageButton imageButton;
     private static String login_token;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -78,7 +78,7 @@ public class Main2Activity extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
         Intent intent = getIntent();
         login_token = intent.getStringExtra("login_token");
-        rvNewsletter= (RecyclerView) findViewById(R.id.newsletterRecycler);
+        rvNewsletter= (RecyclerView) findViewById(R.id.newslettersRecycler);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.icon_beinsured);
@@ -128,7 +128,7 @@ public class Main2Activity extends AppCompatActivity {
                     pages=newsletters.getPages();
                     status =newsletters.getStatus();
                     Log.d("ddd",newsletterArrayList.toString());
-                    adapter = new NewsletterAdapter(newsletterArrayList);
+                    adapter = new NewslettersAdapter(newsletterArrayList);
                     rvNewsletter.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                 }

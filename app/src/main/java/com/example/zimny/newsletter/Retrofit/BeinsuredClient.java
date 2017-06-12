@@ -9,6 +9,8 @@ import retrofit2.Call;
 import retrofit2.http.*;
 
 
+
+
 /**
  * Created by ideo7 on 07.06.2017.
  */
@@ -24,8 +26,8 @@ public interface BeinsuredClient {
     @GET("DefaultProfil/getListaNewsleter?apiKey=2esde2%23derdsr%23RD")
     Call<Newsletters> getListNewsletter();
 
-    @GET("DefaultProfil/getNewsleter?apiKey=2esde2%23derdsr%23RD&newsletter=10")
-    Call<NewsletterContent> getNewsletter();
+    @GET("DefaultProfil/getNewsleter?apiKey=2esde2%23derdsr%23RD")
+    Call<NewsletterContent> getNewsletter(@Query("newsletter") int newsletter);
 
 
 }
