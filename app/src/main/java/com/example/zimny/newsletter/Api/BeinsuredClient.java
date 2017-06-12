@@ -1,12 +1,13 @@
-package com.example.zimny.newsletter.Retrofit;
+package com.example.zimny.newsletter.Api;
 
-import com.example.zimny.newsletter.Class.Newsletter;
-import com.example.zimny.newsletter.Class.NewsletterContent;
-import com.example.zimny.newsletter.Class.Newsletters;
-import com.example.zimny.newsletter.Class.User;
+import com.example.zimny.newsletter.Model.NewsletterContent;
+import com.example.zimny.newsletter.Model.Newsletters;
+import com.example.zimny.newsletter.Model.User;
 
 import retrofit2.Call;
 import retrofit2.http.*;
+
+
 
 
 /**
@@ -24,8 +25,8 @@ public interface BeinsuredClient {
     @GET("DefaultProfil/getListaNewsleter?apiKey=2esde2%23derdsr%23RD")
     Call<Newsletters> getListNewsletter();
 
-    @GET("DefaultProfil/getNewsleter?apiKey=2esde2%23derdsr%23RD&newsletter=10")
-    Call<NewsletterContent> getNewsletter();
+    @GET("DefaultProfil/getNewsleter?apiKey=2esde2%23derdsr%23RD")
+    Call<NewsletterContent> getNewsletter(@Query("newsletter") int newsletter);
 
 
 }

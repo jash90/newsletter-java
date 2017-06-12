@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="22dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="25dp"
+        android:id="@+id/tytul_aktualnosci"
+        android:text="tytuł"
+        fontPath="fonts/OpenSans-Bold.ttf"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:id="@+id/autor_aktualnosci"
+        android:text="autor"
+        fontPath="fonts/OpenSans-Bold.ttf"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:id="@+id/publikator_aktualnosci"
+        android:text="publikator"
+        fontPath="fonts/OpenSans-Bold.ttf"
+        />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/obrazek_aktualnosci"
+        />
+
+    <WebView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="22dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/tresc_aktualnosci"
+        android:text="tresc"
+        fontPath="fonts/OpenSans-Bold.ttf">
+
+    </WebView>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dodaj Komentarz"
+        android:textColor="@android:color/white"
+        android:onClick="DodajKomentarz"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="11dp"
+        android:paddingBottom="11dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/round_corner_orange"
+        android:id="@+id/przycisk_aktualnosci"
+        />
+</LinearLayout>

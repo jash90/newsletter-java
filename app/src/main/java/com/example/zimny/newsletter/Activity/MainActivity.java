@@ -16,9 +16,11 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
-import com.example.zimny.newsletter.Retrofit.BeinsuredClient;
+import com.example.zimny.newsletter.Api.BeinsuredClient;
+import com.example.zimny.newsletter.Api.ServiceGenerator;
 import com.example.zimny.newsletter.R;
-import com.example.zimny.newsletter.Class.User;
+import com.example.zimny.newsletter.Model.User;
+import com.facebook.stetho.Stetho;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -88,31 +90,16 @@ public class MainActivity extends AppCompatActivity {
     public void Zaloguj(View view) {
 
         try {
-            OkHttpClient.Builder okbuilder = new OkHttpClient.Builder();
-            okbuilder.addInterceptor(new Interceptor() {
-                @Override
-                public okhttp3.Response intercept(Chain chain) throws IOException {
-                    Request request = chain.request();
-                    Request.Builder newrequest = request.newBuilder();
-                    return chain.proceed(newrequest.build());
-                }
-            });
-
-            Retrofit.Builder builder = new Retrofit.Builder()
-                    .baseUrl("http://www.beinsured.t.test.ideo.pl/api/v1/1/pl/")
-                    .client(okbuilder.build())
-                    .addConverterFactory(GsonConverterFactory.create());
-            Retrofit retrofit = builder.build();
-            BeinsuredClient beinsuredClient = retrofit.create(BeinsuredClient.class);
+            BeinsuredClient beinsuredClient = ServiceGenerator.createService(BeinsuredClient.class,"beinsured","beinsu12");
             Call<User> call = beinsuredClient.login(loginEditText.getText().toString(), passwordEditText.getText().toString(),"2esde2#derdsr#RD");
             call.enqueue(new Callback<User>() {
                 @Override
                 public void onResponse(Call<User> call, Response<User> response) {
                     user = response.body();
-                    Log.d("dddd",user.toString());
+   //                 Log.d("dddd",user.toString());
                     if (user!=null) {
                         Toast.makeText(MainActivity.this, user.getMessage(), Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(MainActivity.this, Main2Activity.class);
+                        Intent intent = new Intent(MainActivity.this, ListNewslettersActivity.class);
                         intent.putExtra("login_token", user.getLogin_token());
                         startActivity(intent);
                     }

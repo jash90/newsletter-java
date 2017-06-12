@@ -1,4 +1,4 @@
-package com.example.zimny.newsletter.Class;
+package com.example.zimny.newsletter.Model;
 
 /**
  * Created by ideo7 on 07.06.2017.

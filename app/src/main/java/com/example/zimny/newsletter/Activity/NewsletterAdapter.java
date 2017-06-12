@@ -1,128 +1,214 @@
 package com.example.zimny.newsletter.Activity;
 
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.webkit.WebView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.zimny.newsletter.Class.Newsletter;
-import com.example.zimny.newsletter.Class.NewsletterContent;
-import com.example.zimny.newsletter.Class.Newsletters;
+import com.example.zimny.newsletter.Model.Aktualnosc;
+import com.example.zimny.newsletter.Model.Baner;
+import com.example.zimny.newsletter.Model.Element;
+import com.example.zimny.newsletter.Model.Sekcja;
+import com.example.zimny.newsletter.Model.Wiadomosc;
 import com.example.zimny.newsletter.R;
-import com.example.zimny.newsletter.Retrofit.BeinsuredClient;
+import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
 /**
- * Created by ideo7 on 05.06.2017.
+ * Created by ideo7 on 12.06.2017.
  */
 
-public class NewsletterAdapter extends RecyclerView.Adapter<NewsletterAdapter.MyViewHolder> {
+public class NewsletterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    ArrayList<Element> elements = new ArrayList<>();
 
-    private ArrayList<Newsletter> newsletters;
+    public NewsletterAdapter(ArrayList<Element> elements) {
+        this.elements = elements;
+    }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, date;
-        public LinearLayout linearLayout;
+    class BanerHolder extends RecyclerView.ViewHolder {
+        public TextView tresc;
+        public ImageView obrazek;
 
-        public MyViewHolder(View view) {
-            super(view);
-            title = (TextView) view.findViewById(R.id.title_newsletter);
-            date = (TextView) view.findViewById(R.id.date);
-            linearLayout = (LinearLayout) view.findViewById(R.id.linearLayout);
+        public BanerHolder(View itemView) {
+            super(itemView);
+            tresc = (TextView) itemView.findViewById(R.id.tresc_banera);
+            obrazek = (ImageView) itemView.findViewById(R.id.obrazek_banera);
         }
     }
 
+    class AktualnoscHolder extends RecyclerView.ViewHolder {
+        public TextView tytul_aktualnosci, autor_aktualnosci, publikator_aktualnosci;
+        public ImageView obrazek_aktualnosci;
+        public WebView tresc_aktualnosci;
 
-    public NewsletterAdapter(ArrayList<Newsletter> newsletterList) {
-        this.newsletters = newsletterList;
+        public AktualnoscHolder(View itemView) {
+            super(itemView);
+            tytul_aktualnosci = (TextView) itemView.findViewById(R.id.tytul_aktualnosci);
+            autor_aktualnosci = (TextView) itemView.findViewById(R.id.autor_aktualnosci);
+            publikator_aktualnosci = (TextView) itemView.findViewById(R.id.publikator_aktualnosci);
+            obrazek_aktualnosci = (ImageView) itemView.findViewById(R.id.obrazek_aktualnosci);
+            tresc_aktualnosci = (WebView) itemView.findViewById(R.id.tresc_aktualnosci);
+        }
+    }
+
+    class WiadomoscHolder extends RecyclerView.ViewHolder {
+        public TextView tytul;
+        public WebView tresc;
+
+        public WiadomoscHolder(View itemView) {
+            super(itemView);
+            tytul = (TextView) itemView.findViewById(R.id.tytul_wiadomosci);
+            tresc = (WebView) itemView.findViewById(R.id.tresc_wiadomosci);
+        }
+    }
+
+    class SekcjaHolder extends RecyclerView.ViewHolder {
+        public TextView tytul;
+
+        public SekcjaHolder(View itemView) {
+            super(itemView);
+            tytul = (TextView) itemView.findViewById(R.id.tytul_sekcji);
+        }
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.row_newsletter, parent, false);
-
-        return new MyViewHolder(itemView);
+    public int getItemViewType(int position) {
+        return elements.get(position).getTyp();
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position) {
-        final Newsletter newsletter = newsletters.get(position);
-        if (newsletter!=null)
-        holder.title.setText(newsletter.getTytul());
-        holder.date.setText("data: "+newsletter.getData_wyslania());
-        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    Log.d("dddd", Main2Activity.getLogin_token());
-                    OkHttpClient.Builder okbuilder = new OkHttpClient.Builder();
-                    okbuilder.addInterceptor(new Interceptor() {
-                        @Override
-                        public okhttp3.Response intercept(Chain chain) throws IOException {
-                            Request request = chain.request();
-                            Request.Builder newrequest = request.newBuilder().addHeader("Authtoken", Main2Activity.getLogin_token());
-                            Log.d("dddd", Main2Activity.getLogin_token());
-                            return chain.proceed(newrequest.build());
-                        }
-                    });
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        switch (viewType) {
+            case 0: {
+                View itemView = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.row_sekcja, parent, false);
+                return new SekcjaHolder(itemView);
+            }
+            case 1: {
+                View itemView = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.row_wiadomosc, parent, false);
+                return new WiadomoscHolder(itemView);
+            }
+            case 2: {
+                View itemView = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.row_aktualnosc, parent, false);
+                return new AktualnoscHolder(itemView);
+            }
+            case 3: {
+                View itemView = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.row_baner, parent, false);
+                return new BanerHolder(itemView);
+            }
+        }
+        return null;
+    }
 
-                    Retrofit.Builder builder = new Retrofit.Builder()
-                            .baseUrl("http://www.beinsured.t.ideo/api/v1/1/pl/")
-                            .client(okbuilder.build())
-                            .addConverterFactory(GsonConverterFactory.create());
-                    Retrofit retrofit = builder.build();
-                    BeinsuredClient beinsuredClient = retrofit.create(BeinsuredClient.class);
-                    Log.d("ddd",retrofit.baseUrl().toString());
-                    Call<NewsletterContent> call = beinsuredClient.getNewsletter();
-                    call.enqueue(new Callback<NewsletterContent>() {
-                        @Override
-                        public void onResponse(Call<NewsletterContent> call, Response<NewsletterContent> response) {
-                            Log.d("ddd",response.body().toString());
-                        }
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        final Element element = elements.get(position);
+        if (element != null) {
+            switch (element.getTyp()) {
+                case 0: {
+                    try {
+                        Sekcja sekcja = element.toSekcja();
 
-                        @Override
-                        public void onFailure(Call<NewsletterContent> call, Throwable t) {
-
-                        }
-                    });
+                        SekcjaHolder sekcjaHolder = (SekcjaHolder) holder;
+                        if (sekcjaHolder.tytul != null)
+                            sekcjaHolder.tytul.setText(sekcja.getTytul());
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.d("dddd",ex.getLocalizedMessage());
+                    }
                 }
-                catch (Exception ex)
+                case 1: {
+                    try{
+                    Wiadomosc wiadomosc = element.toWiadomosc();
+                    WiadomoscHolder wiadomoscHolder = (WiadomoscHolder) holder;
+                    if (wiadomoscHolder.tytul!=null)
+                    wiadomoscHolder.tytul.setText(wiadomosc.getTytul());
+                    else
+                        wiadomoscHolder.tytul.setVisibility(View.GONE);
+                    if (wiadomoscHolder.tresc!=null)
+                    wiadomoscHolder.tresc.loadData(wiadomosc.getTresc(), "text/html; charset=UTF-8", null);
+                    else
+                        wiadomoscHolder.tresc.setVisibility(View.GONE);
+                }
+                    catch (Exception ex)
                 {
-                    Log.d("error",ex.getLocalizedMessage());
+                    Log.d("dddd",ex.getLocalizedMessage());
                 }
+                }
+                case 2: {
+                    try {
+                    Aktualnosc aktualnosc = element.toAktualnosc();
+                    AktualnoscHolder aktualnoscHolder = (AktualnoscHolder) holder;
+                    if (aktualnoscHolder.tresc_aktualnosci != null)
+                        aktualnoscHolder.tresc_aktualnosci.loadData(aktualnosc.getTresc(), "text/html; charset=UTF-8",null);
+                        else
+                        aktualnoscHolder.tresc_aktualnosci.setVisibility(View.GONE);
+                    if (aktualnoscHolder.obrazek_aktualnosci != null) {
 
-    }});
-        Log.d("ddd",newsletter.toString());
+                        Picasso.with(aktualnoscHolder.obrazek_aktualnosci.getContext())
+                                .load(aktualnosc.getImage().getLink())
+                                .resize(aktualnosc.getImage().getWidth(),aktualnosc.getImage().getHeight())
+                                .into(aktualnoscHolder.obrazek_aktualnosci);
+                    }
+                    else
+                        aktualnoscHolder.obrazek_aktualnosci.setVisibility(View.GONE);
+                    if (aktualnoscHolder.autor_aktualnosci!=null)
+                    aktualnoscHolder.autor_aktualnosci.setText("Autor : "+aktualnosc.getAutor());
+                        else
+                        aktualnoscHolder.autor_aktualnosci.setVisibility(View.GONE);
+                    if (aktualnoscHolder.publikator_aktualnosci!=null){
+                    aktualnoscHolder.publikator_aktualnosci.setText("Publikator : "+aktualnosc.getPublikator());}
+                        else
+                        aktualnoscHolder.publikator_aktualnosci.setVisibility(View.GONE);
+                    if (aktualnoscHolder.tytul_aktualnosci!=null)
+                    aktualnoscHolder.tytul_aktualnosci.setText(aktualnosc.getTytul());
+                        else
+                        aktualnoscHolder.tytul_aktualnosci.setVisibility(View.GONE);
+                    }
+                    catch (Exception ex)
+                    {
+                        //Log.d("dddd",ex.getLocalizedMessage());
+                    }
 
-
-        if (position %2 ==0)
-        {
-            holder.linearLayout.setBackgroundColor(Color.WHITE);
+                }
+                case 3: {
+                    try {
+                    Baner baner = element.toBaner();
+                    BanerHolder banerHolder = (BanerHolder) holder;
+                    if (baner.getTresc() != null)
+                        banerHolder.tresc.setText(baner.getTresc());
+                        else
+                        banerHolder.tresc.setVisibility(View.GONE);
+                    if (baner.getImage() != null) {
+                        Picasso.with(banerHolder.obrazek.getContext())
+                                .load(baner.getImage().getLink())
+                                .resize(baner.getImage().getWidth(),baner.getImage().getHeight())
+                                .into(banerHolder.obrazek);
+                    }
+                    else
+                        banerHolder.obrazek.setVisibility(View.GONE);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.d("dddd",ex.getLocalizedMessage());
+                    }
+                }
+            }
         }
-        else {
-            holder.linearLayout.setBackgroundResource(R.color.grey_element);
-        }
+
     }
 
     @Override
     public int getItemCount() {
-        return newsletters.size();
+        return elements.size();
     }
 }

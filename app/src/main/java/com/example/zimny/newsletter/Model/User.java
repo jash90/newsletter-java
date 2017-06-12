@@ -1,9 +1,6 @@
-package com.example.zimny.newsletter.Class;
+package com.example.zimny.newsletter.Model;
 
 import com.google.gson.annotations.SerializedName;
-
-import java.sql.Time;
-import java.sql.Timestamp;
 
 public class User {
     @SerializedName("status")

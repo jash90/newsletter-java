@@ -1,4 +1,4 @@
-package com.example.zimny.newsletter.Class;
+package com.example.zimny.newsletter.Model;
 
 
 import com.google.gson.annotations.SerializedName;
@@ -15,7 +15,7 @@ public class Aktualnosc extends Sekcja {
     @SerializedName("image")
     private Image image;
     @SerializedName("id_aktualnosci")
-    private int id_aktualnosci;
+    private String id_aktualnosci;
     @SerializedName("autor")
     private String autor;
     @SerializedName("publikator")
@@ -45,11 +45,11 @@ public class Aktualnosc extends Sekcja {
         this.image = image;
     }
 
-    public int getId_aktualnosci() {
+    public String getId_aktualnosci() {
         return id_aktualnosci;
     }
 
-    public void setId_aktualnosci(int id_aktualnosci) {
+    public void setId_aktualnosci(String id_aktualnosci) {
         this.id_aktualnosci = id_aktualnosci;
     }
 
@@ -72,7 +72,7 @@ public class Aktualnosc extends Sekcja {
     public Aktualnosc() {
     }
 
-    public Aktualnosc(String tytul, int typ, int kotwica, String link, String tresc, Image image, int id_aktualnosci, String autor, String publikator) {
+    public Aktualnosc(String tytul, int typ, int kotwica, String link, String tresc, Image image, String id_aktualnosci, String autor, String publikator) {
         super(typ,kotwica,tytul);
         this.link = link;
         this.tresc = tresc;
