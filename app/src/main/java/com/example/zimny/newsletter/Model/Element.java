@@ -23,7 +23,7 @@ public class Element {
     @SerializedName("tytul")
     private String tytul;
     @SerializedName("id_aktualnosci")
-    private int id_aktualnosci;
+    private String id_aktualnosci;
     @SerializedName("autor")
     private String autor;
     @SerializedName("publikator")
@@ -85,11 +85,11 @@ public class Element {
         this.tytul = tytul;
     }
 
-    public int getId_aktualnosci() {
+    public String getId_aktualnosci() {
         return id_aktualnosci;
     }
 
-    public void setId_aktualnosci(int id_aktualnosci) {
+    public void setId_aktualnosci(String id_aktualnosci) {
         this.id_aktualnosci = id_aktualnosci;
     }
 
@@ -123,7 +123,7 @@ public class Element {
         this.link = link;
         this.tresc = tresc;
     }
-    public Element(String tytul, int typ, int kotwica, String link, String tresc, Image image, int id_aktualnosci, String autor, String publikator) {
+    public Element(String tytul, int typ, int kotwica, String link, String tresc, Image image, String id_aktualnosci, String autor, String publikator) {
         this.typ = typ;
         this.kotwica = kotwica;
         this.tytul = tytul;

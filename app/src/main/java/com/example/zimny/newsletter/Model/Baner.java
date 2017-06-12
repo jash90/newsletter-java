@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by ideo7 on 07.06.2017.
  */
 
-public class Baner extends Element22 {
+public class Baner extends Base {
     @SerializedName("tresc")
     private String tresc;
     @SerializedName("image")

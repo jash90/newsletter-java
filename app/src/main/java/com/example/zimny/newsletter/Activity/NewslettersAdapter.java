@@ -64,7 +64,7 @@ public class NewslettersAdapter extends RecyclerView.Adapter<NewslettersAdapter.
             public void onClick(View v) {
 
 
-                Intent intent = new Intent(context.getApplicationContext(), ListNewsletterActivity.class);
+                Intent intent = new Intent(context.getApplicationContext(), NewsletterActivity.class);
                 intent.putExtra("login_token", login_token);
                 intent.putExtra("id_newsletter", newsletter.getId());
                 context.startActivity(intent);

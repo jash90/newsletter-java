@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by ideo7 on 07.06.2017.
  */
 
-public class Element22 {
+public class Base {
 
     @SerializedName("typ")
     private int typ;
@@ -29,10 +29,10 @@ public class Element22 {
         this.kotwica = kotwica;
     }
 
-    public Element22() {
+    public Base() {
     }
 
-    public Element22(int typ, int kotwica) {
+    public Base(int typ, int kotwica) {
 
         this.typ = typ;
         this.kotwica = kotwica;
@@ -40,7 +40,7 @@ public class Element22 {
 
     @Override
     public String toString() {
-        return "Element22{" +
+        return "Base{" +
                 " typ=" + typ +
                 ", kotwica=" + kotwica +
                 '}';

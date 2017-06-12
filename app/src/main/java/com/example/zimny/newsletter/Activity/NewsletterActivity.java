@@ -19,24 +19,17 @@ import com.example.zimny.newsletter.Model.Element;
 import com.example.zimny.newsletter.Model.NewsletterContent;
 import com.example.zimny.newsletter.Api.BeinsuredClient;
 import com.example.zimny.newsletter.R;
-import com.facebook.stetho.Stetho;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class ListNewsletterActivity extends AppCompatActivity {
+public class NewsletterActivity extends AppCompatActivity {
 
 
     private ArrayList<Element> elements;
@@ -99,13 +92,17 @@ public class ListNewsletterActivity extends AppCompatActivity {
         getNewsletter(login_token,id_newsletter);
         else
             Log.d("dddd","błąd");
+        String s="";
+        for (Element element :elements)
+            s+=element.toString()+'\n';
+        Log.d("dd",s);
     }
 
     private void getNewsletter(final String login_token, int id_newsletter) {
         try {
             Log.d("dddd", login_token);
             BeinsuredClient beinsuredClient = ServiceGenerator.createService(BeinsuredClient.class,login_token);
-            Call<NewsletterContent> call = beinsuredClient.getNewsletter();
+            Call<NewsletterContent> call = beinsuredClient.getNewsletter(id_newsletter);
             call.enqueue(new Callback<NewsletterContent>() {
                 @Override
                 public void onResponse(Call<NewsletterContent> call, Response<NewsletterContent> response) {
@@ -126,18 +123,18 @@ public class ListNewsletterActivity extends AppCompatActivity {
                     }
                     }
                     else
-                        Log.d("error","Błąd");
+                        Log.d("else","Błąd");
                 }
 
                 @Override
                 public void onFailure(Call<NewsletterContent> call, Throwable t) {
-
+                    Log.d("onFailure",t.getLocalizedMessage());
                 }
             });
         }
         catch (Exception ex)
         {
-            Log.d("error",ex.getLocalizedMessage());
+            Log.d("try",ex.getLocalizedMessage());
         }
     }
 
@@ -152,6 +149,6 @@ public class ListNewsletterActivity extends AppCompatActivity {
     }
 
     public static void setLogin_token(String login_token) {
-        ListNewsletterActivity.login_token = login_token;
+        NewsletterActivity.login_token = login_token;
     }
 }

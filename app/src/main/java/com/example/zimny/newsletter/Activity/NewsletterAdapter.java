@@ -132,8 +132,12 @@ public class NewsletterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     WiadomoscHolder wiadomoscHolder = (WiadomoscHolder) holder;
                     if (wiadomoscHolder.tytul!=null)
                     wiadomoscHolder.tytul.setText(wiadomosc.getTytul());
+                    else
+                        wiadomoscHolder.tytul.setVisibility(View.GONE);
                     if (wiadomoscHolder.tresc!=null)
-                    wiadomoscHolder.tresc.loadData(wiadomosc.getTresc(), "text/html", null);
+                    wiadomoscHolder.tresc.loadData(wiadomosc.getTresc(), "text/html; charset=UTF-8", null);
+                    else
+                        wiadomoscHolder.tresc.setVisibility(View.GONE);
                 }
                     catch (Exception ex)
                 {
@@ -145,23 +149,34 @@ public class NewsletterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     Aktualnosc aktualnosc = element.toAktualnosc();
                     AktualnoscHolder aktualnoscHolder = (AktualnoscHolder) holder;
                     if (aktualnoscHolder.tresc_aktualnosci != null)
-                        aktualnoscHolder.tresc_aktualnosci.loadData(aktualnosc.getTresc(), "text/html", null);
+                        aktualnoscHolder.tresc_aktualnosci.loadData(aktualnosc.getTresc(), "text/html; charset=UTF-8",null);
+                        else
+                        aktualnoscHolder.tresc_aktualnosci.setVisibility(View.GONE);
                     if (aktualnoscHolder.obrazek_aktualnosci != null) {
-                        aktualnoscHolder.obrazek_aktualnosci.getLayoutParams().height = aktualnosc.getImage().getHeight();
-                        aktualnoscHolder.obrazek_aktualnosci.getLayoutParams().width = aktualnosc.getImage().getWidth();
-                        aktualnoscHolder.obrazek_aktualnosci.requestLayout();
-                        Picasso.with(aktualnoscHolder.obrazek_aktualnosci.getContext()).load(aktualnosc.getImage().getLink()).into(aktualnoscHolder.obrazek_aktualnosci);
+
+                        Picasso.with(aktualnoscHolder.obrazek_aktualnosci.getContext())
+                                .load(aktualnosc.getImage().getLink())
+                                .resize(aktualnosc.getImage().getWidth(),aktualnosc.getImage().getHeight())
+                                .into(aktualnoscHolder.obrazek_aktualnosci);
                     }
+                    else
+                        aktualnoscHolder.obrazek_aktualnosci.setVisibility(View.GONE);
                     if (aktualnoscHolder.autor_aktualnosci!=null)
-                    aktualnoscHolder.autor_aktualnosci.setText(aktualnosc.getAutor());
-                    if (aktualnoscHolder.publikator_aktualnosci!=null)
-                    aktualnoscHolder.publikator_aktualnosci.setText(aktualnosc.getPublikator());
+                    aktualnoscHolder.autor_aktualnosci.setText("Autor : "+aktualnosc.getAutor());
+                        else
+                        aktualnoscHolder.autor_aktualnosci.setVisibility(View.GONE);
+                    if (aktualnoscHolder.publikator_aktualnosci!=null){
+                    aktualnoscHolder.publikator_aktualnosci.setText("Publikator : "+aktualnosc.getPublikator());}
+                        else
+                        aktualnoscHolder.publikator_aktualnosci.setVisibility(View.GONE);
                     if (aktualnoscHolder.tytul_aktualnosci!=null)
                     aktualnoscHolder.tytul_aktualnosci.setText(aktualnosc.getTytul());
+                        else
+                        aktualnoscHolder.tytul_aktualnosci.setVisibility(View.GONE);
                     }
                     catch (Exception ex)
                     {
-                        Log.d("dddd",ex.getLocalizedMessage());
+                        //Log.d("dddd",ex.getLocalizedMessage());
                     }
 
                 }
@@ -171,12 +186,16 @@ public class NewsletterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     BanerHolder banerHolder = (BanerHolder) holder;
                     if (baner.getTresc() != null)
                         banerHolder.tresc.setText(baner.getTresc());
+                        else
+                        banerHolder.tresc.setVisibility(View.GONE);
                     if (baner.getImage() != null) {
-                        banerHolder.obrazek.getLayoutParams().height = baner.getImage().getHeight();
-                        banerHolder.obrazek.getLayoutParams().width = baner.getImage().getWidth();
-                        banerHolder.obrazek.requestLayout();
-                        Picasso.with(banerHolder.obrazek.getContext()).load(baner.getImage().getLink()).into(banerHolder.obrazek);
+                        Picasso.with(banerHolder.obrazek.getContext())
+                                .load(baner.getImage().getLink())
+                                .resize(baner.getImage().getWidth(),baner.getImage().getHeight())
+                                .into(banerHolder.obrazek);
                     }
+                    else
+                        banerHolder.obrazek.setVisibility(View.GONE);
                     }
                     catch (Exception ex)
                     {

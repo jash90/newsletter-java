@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by ideo7 on 07.06.2017.
  */
 
-public class Sekcja extends Element22 {
+public class Sekcja extends Base {
     @SerializedName("tytul")
     private String tytul;
 
