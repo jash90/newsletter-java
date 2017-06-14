@@ -129,14 +129,14 @@ public class NewsletterActivity extends AppCompatActivity {
                                 tresc.setTytul(elements.get(i).getTytul());
                                 ArrayList<Pozycja> pozycjas = new ArrayList<Pozycja>();
                                 i++;
-                                do {
+                                while(elements.get(i).getTyp()!=0 && i<elements.size()){
 
                                     Pozycja pozycja = new Pozycja(elements.get(i).getTytul(),elements.get(i).getKotwica());
                                     if (elements.get(i).getTyp()!=3)
                                     pozycjas.add(pozycja);
                                     i++;
                                 }
-                                while(elements.get(i).getTyp()!=0 || i<elements.size());
+
                                 spis_tresci.add(tresc);
                             }
                         }
