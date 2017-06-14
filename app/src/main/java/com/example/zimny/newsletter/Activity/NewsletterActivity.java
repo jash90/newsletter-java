@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -19,6 +18,8 @@ import com.example.zimny.newsletter.Api.ServiceGenerator;
 import com.example.zimny.newsletter.Model.Element;
 import com.example.zimny.newsletter.Model.NewsletterContent;
 import com.example.zimny.newsletter.Api.BeinsuredClient;
+import com.example.zimny.newsletter.Model.Pozycja;
+import com.example.zimny.newsletter.Model.Tresc;
 import com.example.zimny.newsletter.R;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class NewsletterActivity extends AppCompatActivity {
     private NewsletterAdapter adapter;
     private int id_newsletter;
     private ImageButton imageButton;
-    private static String login_token;
+    private String login_token;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -46,7 +47,9 @@ public class NewsletterActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_myaccount:
-
+                    Intent panel = new Intent(NewsletterActivity.this,UserPanelActivity.class);
+                    panel.putExtra("login_token",login_token);
+                    startActivity(panel);
                     return true;
                 case R.id.navigation_newsletter:
                     Intent newsletters = new Intent(NewsletterActivity.this,ListNewslettersActivity.class);
@@ -116,6 +119,29 @@ public class NewsletterActivity extends AppCompatActivity {
                     {
                         try{
                         elements = newsletterContent.getData().getZawartosc();
+                        ArrayList<Tresc> spis_tresci = new ArrayList<Tresc>();
+                        int i =0;
+                        while(i<elements.size())
+                        {
+                            if (elements.get(i).getTyp()==0)
+                            {
+                                Tresc tresc = new Tresc();
+                                tresc.setTytul(elements.get(i).getTytul());
+                                ArrayList<Pozycja> pozycjas = new ArrayList<Pozycja>();
+                                i++;
+                                do {
+
+                                    Pozycja pozycja = new Pozycja(elements.get(i).getTytul(),elements.get(i).getKotwica());
+                                    if (elements.get(i).getTyp()!=3)
+                                    pozycjas.add(pozycja);
+                                    i++;
+                                }
+                                while(elements.get(i).getTyp()!=0 || i<elements.size());
+                                spis_tresci.add(tresc);
+                            }
+                        }
+                        for(Tresc t : spis_tresci)
+                            Log.d("tresc",t.toString());
                         adapter = new NewsletterAdapter(elements);
                         rvNewsletter.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
@@ -145,13 +171,5 @@ public class NewsletterActivity extends AppCompatActivity {
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-    }
-
-    public static String getLogin_token() {
-        return login_token;
-    }
-
-    public static void setLogin_token(String login_token) {
-        NewsletterActivity.login_token = login_token;
     }
 }

@@ -193,14 +193,14 @@ public class NewsletterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                     public void onClick(final View v) {
                                         try {
                                             if (!komentarzEditText.getText().toString().isEmpty()) {
-                                                String login_token = ListNewslettersActivity.getLogin_token();
+                                                String login_token = Attributes.getLogin_token();
                                                 Log.d("dddd", login_token);
                                                 BeinsuredClient beinsuredClient = ServiceGenerator.createService(BeinsuredClient.class, login_token);
                                                 Call<Komentarz> call = beinsuredClient.addcomment("2esde2#derdsr#RD", element.getId_aktualnosci(), komentarzEditText.getText().toString());
                                                 call.enqueue(new Callback<Komentarz>() {
                                                                  @Override
                                                                  public void onResponse(Call<Komentarz> call, Response<Komentarz> response) {
-                                                                     Toast.makeText(v.getContext(),response.body().getMessage(),Toast.LENGTH_SHORT).show();
+                                                                     Toast.makeText(v.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                                                                      dialog.dismiss();
                                                                  }
 
@@ -211,15 +211,11 @@ public class NewsletterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                              }
 
                                                 );
+                                            } else {
+                                                Toast.makeText(v.getContext(), "Komentarz jest za krótki.", Toast.LENGTH_SHORT).show();
                                             }
-                                            else
-                                            {
-                                                Toast.makeText(v.getContext(),"Komentarz jest za krótki.",Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            Log.e("ddd",ex.getLocalizedMessage());
+                                        } catch (Exception ex) {
+                                            Log.e("ddd", ex.getLocalizedMessage());
                                         }
                                     }
                                 });
@@ -280,7 +276,7 @@ public class NewsletterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 case 3: {
                     try {
                         BanerHolder banerHolder = (BanerHolder) holder;
-                        if (element.getTresc()!= null && !element.getTresc().isEmpty()) {
+                        if (element.getTresc() != null && !element.getTresc().isEmpty()) {
                             banerHolder.tresc.setText(element.getTresc());
                         } else {
                             banerHolder.tresc.setVisibility(View.GONE);
@@ -293,8 +289,7 @@ public class NewsletterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         } else {
                             banerHolder.obrazek.setVisibility(View.GONE);
                         }
-                        if (element.getBaner_link() != null && !element.getBaner_link().isEmpty())
-                        {
+                        if (element.getBaner_link() != null && !element.getBaner_link().isEmpty()) {
                             banerHolder.obrazek.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {

@@ -5,7 +5,19 @@
     <string name="title_logout">Wyloguj</string>
     <string name="title_registration">Jeśli nie masz jeszcze konta zarejestruj się na beinsured.pl</string>
     <string name="title_link"><a href="http://www.beinsured.pl/pakiety/">Link</a></string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="login_button">Zaloguj</string>
+    <string name="list_newsletters">Lista newsletterów</string>
+    <string name="my_account">Moje Konto</string>
+    <string name="my_account_description">Tutaj możesz możesz modyfikować dane podstawowe, które opisują Twoje konto.</string>
+    <string name="abonament">Abonament</string>
+    <string name="type">Typ:</string>
+    <string name="okres">Okres:</string>
+    <string name="data_end">Ważny do:</string>
+    <string name="ilosc_dostepow">Ilość dostępów:</string>
+    <string name="wykorzystano">Wykorzystano:</string>
+    <string name="addcomment">Dodaj Komentarz</string>
+    <string name="comment">Komentarz</string>
+    <string name="cancel">Anuluj</string>
+
 </resources>

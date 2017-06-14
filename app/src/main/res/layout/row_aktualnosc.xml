@@ -53,14 +53,14 @@
         android:layout_marginRight="40dp"
         android:layout_marginTop="10dp"
         android:id="@+id/tresc_aktualnosci"
-        android:text="tresc"
+        android:text="spis_tresci"
         fontPath="fonts/OpenSans-Bold.ttf">
 
     </WebView>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Dodaj Komentarz"
+        android:text="@string/addcomment"
         android:textColor="@android:color/white"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"

@@ -5,8 +5,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:allowBackup="true"
         android:name=".Activity.MyApplication"
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -28,7 +28,8 @@
 
             <category android:name="android.intent.category.DEFAULT" />
         </activity>
-        <activity android:name=".Activity.NewsletterActivity"></activity>
+        <activity android:name=".Activity.NewsletterActivity" />
+        <activity android:name=".Activity.UserPanelActivity"></activity>
     </application>
 
 </manifest>

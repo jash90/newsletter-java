@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * Created by ideo7 on 07.06.2017.
  */
 
-class Spis_tresci {
+public class Tresc {
     @SerializedName("tytul")
     private String tytul;
     @SerializedName("pozycje")
@@ -30,17 +30,17 @@ class Spis_tresci {
         this.pozycje = pozycje;
     }
 
-    public Spis_tresci() {
+    public Tresc() {
     }
 
-    public Spis_tresci(String tytul, ArrayList<Pozycja> pozycje) {
+    public Tresc(String tytul, ArrayList<Pozycja> pozycje) {
         this.tytul = tytul;
         this.pozycje = pozycje;
     }
 
     @Override
     public String toString() {
-        return "Spis_tresci{" +
+        return "Tresc{" +
                 "tytul='" + tytul + '\'' +
                 ", pozycje=" + pozycje +
                 '}';

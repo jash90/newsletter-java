@@ -14,7 +14,11 @@ import android.widget.TextView;
 import com.example.zimny.newsletter.Model.Newsletter;
 import com.example.zimny.newsletter.R;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by ideo7 on 05.06.2017.
@@ -56,9 +60,11 @@ public class NewslettersAdapter extends RecyclerView.Adapter<NewslettersAdapter.
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final Newsletter newsletter = newsletters.get(position);
-        if (newsletter != null)
+        if (newsletter != null) {
             holder.title.setText(newsletter.getTytul());
-        holder.date.setText("data: " + newsletter.getData_wyslania());
+
+            holder.date.setText("data: " + new SimpleDateFormat("dd.MM.yyyy").format(Timestamp.valueOf(newsletter.getData_wyslania()).getTime()));
+        }
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

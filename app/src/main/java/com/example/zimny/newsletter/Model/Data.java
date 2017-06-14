@@ -10,15 +10,15 @@ import java.util.ArrayList;
 
 public class Data {
     @SerializedName("spis_tresci")
-    private Spis_tresci spis_tresci;
+    private ArrayList<Tresc> spis_tresci;
     @SerializedName("zawartosc")
     private ArrayList<Element> zawartosc;
 
-    public Spis_tresci getSpis_tresci() {
+    public ArrayList<Tresc> getSpis_tresci() {
         return spis_tresci;
     }
 
-    public void setSpis_tresci(Spis_tresci spis_tresci) {
+    public void setSpis_tresci(ArrayList<Tresc> spis_tresci) {
         this.spis_tresci = spis_tresci;
     }
 
@@ -33,7 +33,7 @@ public class Data {
     public Data() {
     }
 
-    public Data(Spis_tresci spis_tresci, ArrayList<Element> zawartosc) {
+    public Data(ArrayList<Tresc> spis_tresci, ArrayList<Element> zawartosc) {
         this.spis_tresci = spis_tresci;
         this.zawartosc = zawartosc;
     }

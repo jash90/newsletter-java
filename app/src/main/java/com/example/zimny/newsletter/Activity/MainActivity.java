@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
                     if (user!=null && user.getStatus().equals("0")) {
                         Intent intent = new Intent(MainActivity.this, ListNewslettersActivity.class);
                         intent.putExtra("login_token", user.getLogin_token());
+                        Attributes.setLogin_token(user.getLogin_token());
                         startActivity(intent);
                     }
                 }

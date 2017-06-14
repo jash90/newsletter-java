@@ -11,7 +11,7 @@
         android:layout_marginTop="22dp"
         android:layout_marginRight="40dp"
         android:id="@+id/tytul_wiadomosci"
-        android:text="tresc"
+        android:text=""
         fontPath="fonts/OpenSans-Bold.ttf"
         />
     <WebView

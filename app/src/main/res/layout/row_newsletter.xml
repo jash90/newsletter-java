@@ -24,7 +24,7 @@
             android:layout_marginTop="22dp"
             android:layout_weight="100"
             android:gravity=""
-            android:text="O umówie wdrożeniowej cd. Rekomendacji"
+            android:text=""
             android:textSize="18dp"
             fontPath="fonts/OpenSans-Bold.ttf"/>
 
@@ -43,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/date"
-        android:text="O umówie wdrożeniowej cd. Rekomendacji"
+        android:text=""
         android:textSize="12dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
