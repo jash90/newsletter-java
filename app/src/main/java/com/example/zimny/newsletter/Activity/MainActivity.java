@@ -49,13 +49,13 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_myaccount:
-
+                    Toast.makeText(getBaseContext(),"Najpierw musisz się zalogować",Toast.LENGTH_SHORT).show();
                     return true;
                 case R.id.navigation_newsletter:
-
+                        Toast.makeText(getBaseContext(),"Najpierw musisz się zalogować",Toast.LENGTH_SHORT).show();
                     return true;
                 case R.id.navigation_logout:
-
+                    Toast.makeText(getBaseContext(),"Najpierw musisz się zalogować",Toast.LENGTH_SHORT).show();
                     return true;
             }
             return false;
@@ -79,7 +79,10 @@ public class MainActivity extends AppCompatActivity {
         text = (TextView) findViewById(R.id.textView) ;
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
+        if (!loginEditText.getText().toString().isEmpty() && !passwordEditText.getText().toString().isEmpty())
+        {
+          //  Zaloguj(null);
+        }
 
     }
 
@@ -97,8 +100,8 @@ public class MainActivity extends AppCompatActivity {
                 public void onResponse(Call<User> call, Response<User> response) {
                     user = response.body();
                     Log.d("dddd",user.toString());
-                    if (user!=null) {
-                        Toast.makeText(MainActivity.this, user.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, user.getMessage(), Toast.LENGTH_SHORT).show();
+                    if (user!=null && user.getStatus().equals("0")) {
                         Intent intent = new Intent(MainActivity.this, ListNewslettersActivity.class);
                         intent.putExtra("login_token", user.getLogin_token());
                         startActivity(intent);

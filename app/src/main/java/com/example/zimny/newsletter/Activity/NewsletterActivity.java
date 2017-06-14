@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -48,10 +49,13 @@ public class NewsletterActivity extends AppCompatActivity {
 
                     return true;
                 case R.id.navigation_newsletter:
-
+                    Intent newsletters = new Intent(NewsletterActivity.this,ListNewslettersActivity.class);
+                    newsletters.putExtra("login_token",login_token);
+                    startActivity(newsletters);
                     return true;
                 case R.id.navigation_logout:
-
+                    Intent logout = new Intent(NewsletterActivity.this,MainActivity.class);
+                    startActivity(logout);
                     return true;
             }
             return false;
@@ -142,7 +146,6 @@ public class NewsletterActivity extends AppCompatActivity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
-
 
     public static String getLogin_token() {
         return login_token;

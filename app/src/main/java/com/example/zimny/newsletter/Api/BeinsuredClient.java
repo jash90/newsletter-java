@@ -1,5 +1,6 @@
 package com.example.zimny.newsletter.Api;
 
+import com.example.zimny.newsletter.Model.Komentarz;
 import com.example.zimny.newsletter.Model.NewsletterContent;
 import com.example.zimny.newsletter.Model.Newsletters;
 import com.example.zimny.newsletter.Model.User;
@@ -27,6 +28,17 @@ public interface BeinsuredClient {
 
     @GET("DefaultProfil/getNewsleter?apiKey=2esde2%23derdsr%23RD")
     Call<NewsletterContent> getNewsletter(@Query("newsletter") int newsletter);
+
+    @FormUrlEncoded
+    @POST("DefaultAktualnosci/dodajKomentarz/")
+    Call<Komentarz> addcomment(
+            @Field("apiKey") String apiKey,
+            @Field("id_aktualnosci") String id_aktualnosci,
+            @Field("komentarz") String komentarz);
+
+    @GET("DefaultProfil/getPakiet?apiKey=2esde2#derdsr#RD")
+    Call<NewsletterContent> getNewsletter(@Query("newsletter") int newsletter);
+
 
 
 }

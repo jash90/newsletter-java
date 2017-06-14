@@ -61,7 +61,8 @@ public class ListNewslettersActivity extends AppCompatActivity {
 
                     return true;
                 case R.id.navigation_logout:
-
+                        Intent intent = new Intent(ListNewslettersActivity.this,MainActivity.class);
+                        startActivity(intent);
                     return true;
             }
             return false;
@@ -96,6 +97,7 @@ public class ListNewslettersActivity extends AppCompatActivity {
         imageButton = (ImageButton)findViewById(R.id.buttonImage);
         imageButton.setColorFilter(R.color.black);
         getListNewsletter(login_token);
+        navigation.setSelectedItemId(R.id.navigation_newsletter);
     }
     @Override
     protected void attachBaseContext(Context newBase) {
