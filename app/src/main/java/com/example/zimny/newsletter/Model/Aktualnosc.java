@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by ideo7 on 07.06.2017.
  */
 
-public class Aktualnosc extends Sekcja {
+public class Aktualnosc {
     @SerializedName("link")
     private String link;
     @SerializedName("tresc")
@@ -20,6 +20,12 @@ public class Aktualnosc extends Sekcja {
     private String autor;
     @SerializedName("publikator")
     private String publikator;
+    @SerializedName("tytul")
+    private String tytul;
+    @SerializedName("typ")
+    private int typ;
+    @SerializedName("kotwica")
+    private int kotwica;
 
     public String getLink() {
         return link;
@@ -69,17 +75,43 @@ public class Aktualnosc extends Sekcja {
         this.publikator = publikator;
     }
 
+    public String getTytul() {
+        return tytul;
+    }
+
+    public void setTytul(String tytul) {
+        this.tytul = tytul;
+    }
+
+    public int getTyp() {
+        return typ;
+    }
+
+    public void setTyp(int typ) {
+        this.typ = typ;
+    }
+
+    public int getKotwica() {
+        return kotwica;
+    }
+
+    public void setKotwica(int kotwica) {
+        this.kotwica = kotwica;
+    }
+
     public Aktualnosc() {
     }
 
-    public Aktualnosc(String tytul, int typ, int kotwica, String link, String tresc, Image image, String id_aktualnosci, String autor, String publikator) {
-        super(typ,kotwica,tytul);
+    public Aktualnosc(String link, String tresc, Image image, String id_aktualnosci, String autor, String publikator, String tytul, int typ, int kotwica) {
         this.link = link;
         this.tresc = tresc;
         this.image = image;
         this.id_aktualnosci = id_aktualnosci;
         this.autor = autor;
         this.publikator = publikator;
+        this.tytul = tytul;
+        this.typ = typ;
+        this.kotwica = kotwica;
     }
 
     @Override
@@ -88,9 +120,12 @@ public class Aktualnosc extends Sekcja {
                 "link='" + link + '\'' +
                 ", tresc='" + tresc + '\'' +
                 ", image=" + image +
-                ", id_aktualnosci=" + id_aktualnosci +
+                ", id_aktualnosci='" + id_aktualnosci + '\'' +
                 ", autor='" + autor + '\'' +
                 ", publikator='" + publikator + '\'' +
+                ", tytul='" + tytul + '\'' +
+                ", typ=" + typ +
+                ", kotwica=" + kotwica +
                 '}';
     }
 }

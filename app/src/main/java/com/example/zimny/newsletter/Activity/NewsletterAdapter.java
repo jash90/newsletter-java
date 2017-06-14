@@ -9,11 +9,7 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.zimny.newsletter.Model.Aktualnosc;
-import com.example.zimny.newsletter.Model.Baner;
 import com.example.zimny.newsletter.Model.Element;
-import com.example.zimny.newsletter.Model.Sekcja;
-import com.example.zimny.newsletter.Model.Wiadomosc;
 import com.example.zimny.newsletter.R;
 import com.squareup.picasso.Picasso;
 
@@ -115,94 +111,97 @@ public class NewsletterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             switch (element.getTyp()) {
                 case 0: {
                     try {
-                        Sekcja sekcja = element.toSekcja();
-
                         SekcjaHolder sekcjaHolder = (SekcjaHolder) holder;
-                        if (sekcjaHolder.tytul != null)
-                            sekcjaHolder.tytul.setText(sekcja.getTytul());
-                    }
-                    catch (Exception ex)
-                    {
-                        Log.d("dddd",ex.getLocalizedMessage());
+                        if (element.getTytul() != null) {
+                            sekcjaHolder.tytul.setText(element.getTytul());
+                        }
+                    } catch (Exception ex) {
+                        Log.d("dddd", ex.getLocalizedMessage());
                     }
                 }
+                break;
                 case 1: {
-                    try{
-                    Wiadomosc wiadomosc = element.toWiadomosc();
-                    WiadomoscHolder wiadomoscHolder = (WiadomoscHolder) holder;
-                    if (wiadomoscHolder.tytul!=null)
-                    wiadomoscHolder.tytul.setText(wiadomosc.getTytul());
-                    else
-                        wiadomoscHolder.tytul.setVisibility(View.GONE);
-                    if (wiadomoscHolder.tresc!=null)
-                    wiadomoscHolder.tresc.loadData(wiadomosc.getTresc(), "text/html; charset=UTF-8", null);
-                    else
-                        wiadomoscHolder.tresc.setVisibility(View.GONE);
+                    try {
+                        WiadomoscHolder wiadomoscHolder = (WiadomoscHolder) holder;
+                        if (element.getTytul() != null) {
+                            wiadomoscHolder.tytul.setText(element.getTytul());
+                        } else {
+                            wiadomoscHolder.tytul.setVisibility(View.GONE);
+                        }
+                        if (element.getTresc() != null) {
+                            wiadomoscHolder.tresc.loadData(element.getTresc(), "text/html; charset=UTF-8", null);
+                        } else {
+                            wiadomoscHolder.tresc.setVisibility(View.GONE);
+                        }
+                    } catch (Exception ex) {
+                        Log.d("dddd", ex.getLocalizedMessage());
+                    }
                 }
-                    catch (Exception ex)
-                {
-                    Log.d("dddd",ex.getLocalizedMessage());
-                }
-                }
+                break;
                 case 2: {
                     try {
-                    Aktualnosc aktualnosc = element.toAktualnosc();
-                    AktualnoscHolder aktualnoscHolder = (AktualnoscHolder) holder;
-                    if (aktualnoscHolder.tresc_aktualnosci != null)
-                        aktualnoscHolder.tresc_aktualnosci.loadData(aktualnosc.getTresc(), "text/html; charset=UTF-8",null);
-                        else
-                        aktualnoscHolder.tresc_aktualnosci.setVisibility(View.GONE);
-                    if (aktualnoscHolder.obrazek_aktualnosci != null) {
+                        AktualnoscHolder aktualnoscHolder = (AktualnoscHolder) holder;
+                        if (element.getTresc() != null) {
+                            aktualnoscHolder.tresc_aktualnosci.loadData(element.getTresc(), "text/html; charset=UTF-8", null);
+                        } else {
+                            aktualnoscHolder.tresc_aktualnosci.setVisibility(View.GONE);
+                        }
 
-                        Picasso.with(aktualnoscHolder.obrazek_aktualnosci.getContext())
-                                .load(aktualnosc.getImage().getLink())
-                                .resize(aktualnosc.getImage().getWidth(),aktualnosc.getImage().getHeight())
-                                .into(aktualnoscHolder.obrazek_aktualnosci);
+                        if (element.getImage() != null) {
+
+                            Picasso.with(aktualnoscHolder.obrazek_aktualnosci.getContext())
+                                    .load(element.getImage().getLink())
+                                    .resize(element.getImage().getWidth(), element.getImage().getHeight())
+                                    .into(aktualnoscHolder.obrazek_aktualnosci);
+                        } else {
+                            aktualnoscHolder.obrazek_aktualnosci.setVisibility(View.GONE);
+                        }
+                        if (element.getAutor() != null) {
+                            aktualnoscHolder.autor_aktualnosci.setText("Autor : " + element.getAutor());
+                        } else
+                            aktualnoscHolder.autor_aktualnosci.setVisibility(View.GONE);
+                        if (element.getPublikator() != null) {
+                            aktualnoscHolder.publikator_aktualnosci.setText("Publikator : " + element.getPublikator());
+                        } else {
+                            aktualnoscHolder.publikator_aktualnosci.setVisibility(View.GONE);
+                        }
+                        if (element.getTytul() != null) {
+                            aktualnoscHolder.tytul_aktualnosci.setText(element.getTytul());
+                            Log.d("tytul", element.getTytul() + " " + element.getTresc().substring(0, 20));
+                        } else {
+                            aktualnoscHolder.tytul_aktualnosci.setVisibility(View.GONE);
+                        }
+
+                    } catch (Exception ex) {
+                        Log.e("error", ex.getLocalizedMessage());
                     }
-                    else
-                        aktualnoscHolder.obrazek_aktualnosci.setVisibility(View.GONE);
-                    if (aktualnoscHolder.autor_aktualnosci!=null)
-                    aktualnoscHolder.autor_aktualnosci.setText("Autor : "+aktualnosc.getAutor());
-                        else
-                        aktualnoscHolder.autor_aktualnosci.setVisibility(View.GONE);
-                    if (aktualnoscHolder.publikator_aktualnosci!=null){
-                    aktualnoscHolder.publikator_aktualnosci.setText("Publikator : "+aktualnosc.getPublikator());}
-                        else
-                        aktualnoscHolder.publikator_aktualnosci.setVisibility(View.GONE);
-                    if (aktualnoscHolder.tytul_aktualnosci!=null)
-                    aktualnoscHolder.tytul_aktualnosci.setText(aktualnosc.getTytul());
-                        else
-                        aktualnoscHolder.tytul_aktualnosci.setVisibility(View.GONE);
-                    }
-                    catch (Exception ex)
-                    {
-                        //Log.d("dddd",ex.getLocalizedMessage());
-                    }
+
 
                 }
+                break;
                 case 3: {
                     try {
-                    Baner baner = element.toBaner();
-                    BanerHolder banerHolder = (BanerHolder) holder;
-                    if (baner.getTresc() != null)
-                        banerHolder.tresc.setText(baner.getTresc());
-                        else
-                        banerHolder.tresc.setVisibility(View.GONE);
-                    if (baner.getImage() != null) {
-                        Picasso.with(banerHolder.obrazek.getContext())
-                                .load(baner.getImage().getLink())
-                                .resize(baner.getImage().getWidth(),baner.getImage().getHeight())
-                                .into(banerHolder.obrazek);
-                    }
-                    else
-                        banerHolder.obrazek.setVisibility(View.GONE);
-                    }
-                    catch (Exception ex)
-                    {
-                        Log.d("dddd",ex.getLocalizedMessage());
+                        BanerHolder banerHolder = (BanerHolder) holder;
+                        if (element.getTresc() != null) {
+                            banerHolder.tresc.setText(element.getTresc());
+                        } else {
+                            banerHolder.tresc.setVisibility(View.GONE);
+                        }
+                        if (element.getImage() != null) {
+                            Picasso.with(banerHolder.obrazek.getContext())
+                                    .load(element.getImage().getLink())
+                                    .resize(element.getImage().getWidth(), element.getImage().getHeight())
+                                    .into(banerHolder.obrazek);
+                        } else {
+                            banerHolder.obrazek.setVisibility(View.GONE);
+                        }
+                    } catch (Exception ex) {
+                        Log.d("error", ex.getLocalizedMessage());
                     }
                 }
+                break;
             }
+            Log.d("", element.toString());
         }
 
     }

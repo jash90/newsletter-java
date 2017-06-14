@@ -6,19 +6,16 @@ import com.google.gson.annotations.SerializedName;
  * Created by ideo7 on 07.06.2017.
  */
 
-public class Baner extends Base {
+public class Baner  {
     @SerializedName("tresc")
     private String tresc;
     @SerializedName("image")
     private Image image;
     @SerializedName("baner_link")
     private String baner_link;
-    @SerializedName("id_aktualnosci")
-    private int id_aktualnosci;
-    @SerializedName("autor")
-    private String autor;
-    @SerializedName("publikator")
-    private String publikator;
+    private int typ;
+    @SerializedName("kotwica")
+    private int kotwica;
 
     public String getTresc() {
         return tresc;
@@ -44,16 +41,31 @@ public class Baner extends Base {
         this.baner_link = baner_link;
     }
 
+    public int getTyp() {
+        return typ;
+    }
 
+    public void setTyp(int typ) {
+        this.typ = typ;
+    }
+
+    public int getKotwica() {
+        return kotwica;
+    }
+
+    public void setKotwica(int kotwica) {
+        this.kotwica = kotwica;
+    }
 
     public Baner() {
     }
 
-    public Baner(int typ, int kotwica, String tresc, Image image, String baner_link) {
-        super(typ, kotwica);
+    public Baner(String tresc, Image image, String baner_link, int typ, int kotwica) {
         this.tresc = tresc;
         this.image = image;
         this.baner_link = baner_link;
+        this.typ = typ;
+        this.kotwica = kotwica;
     }
 
     @Override
@@ -62,6 +74,8 @@ public class Baner extends Base {
                 "tresc='" + tresc + '\'' +
                 ", image=" + image +
                 ", baner_link='" + baner_link + '\'' +
+                ", typ=" + typ +
+                ", kotwica=" + kotwica +
                 '}';
     }
 }

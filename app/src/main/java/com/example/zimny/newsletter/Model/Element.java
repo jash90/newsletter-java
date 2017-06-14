@@ -143,33 +143,29 @@ public class Element {
     }
     public Sekcja toSekcja()
     {
-        return new Sekcja(typ,kotwica,tytul);
+        return new Sekcja(tytul,typ,kotwica);
     }
     public Aktualnosc toAktualnosc()
     {
-        return new Aktualnosc(tytul,typ,kotwica,link,tresc,image,id_aktualnosci,autor,publikator);
+        return new Aktualnosc(link,tresc,image,id_aktualnosci,autor,publikator,tytul,typ,kotwica);
     }
     public Wiadomosc toWiadomosc()
     {
-        return new Wiadomosc(typ,kotwica,tytul,link,tresc);
+        return new Wiadomosc(link,tresc,tytul,typ,kotwica);
     }
     public Baner toBaner(){
-        return new Baner(typ,kotwica,tresc,image,baner_link);
+        return new Baner(tresc, image, baner_link, typ, kotwica);
     }
 
     @Override
     public String toString() {
-        return "Element{" +
-                "typ=" + typ +
-                ", kotwica=" + kotwica +
-                ", tresc='" + tresc + '\'' +
-                ", image=" + image +
-                ", baner_link='" + baner_link + '\'' +
-                ", link='" + link + '\'' +
-                ", tytul='" + tytul + '\'' +
-                ", id_aktualnosci=" + id_aktualnosci +
-                ", autor='" + autor + '\'' +
-                ", publikator='" + publikator + '\'' +
-                '}';
+        switch (typ)
+        {
+            case 0: return new Sekcja(tytul,typ,kotwica).toString();
+            case 1: return new Wiadomosc(link,tresc.substring(0,5),tytul,typ,kotwica).toString();
+            case 2: return new Aktualnosc(link,tresc.substring(0,5),image,id_aktualnosci,autor,publikator,tytul,typ,kotwica).toString();
+            case 3: return new Baner(tresc.substring(0,5), image, baner_link, typ, kotwica).toString();
+        }
+        return null;
     }
 }

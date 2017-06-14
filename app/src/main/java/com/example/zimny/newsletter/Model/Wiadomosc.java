@@ -1,12 +1,22 @@
 package com.example.zimny.newsletter.Model;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by ideo7 on 07.06.2017.
  */
 
-public class Wiadomosc extends Sekcja {
-private String link;
-private String tresc;
+public class Wiadomosc {
+    @SerializedName("link")
+    private String link;
+    @SerializedName("tresc")
+    private String tresc;
+    @SerializedName("tytul")
+    private String tytul;
+    @SerializedName("typ")
+    private int typ;
+    @SerializedName("kotwica")
+    private int kotwica;
 
     public String getLink() {
         return link;
@@ -24,14 +34,39 @@ private String tresc;
         this.tresc = tresc;
     }
 
+    public String getTytul() {
+        return tytul;
+    }
+
+    public void setTytul(String tytul) {
+        this.tytul = tytul;
+    }
+
+    public int getTyp() {
+        return typ;
+    }
+
+    public void setTyp(int typ) {
+        this.typ = typ;
+    }
+
+    public int getKotwica() {
+        return kotwica;
+    }
+
+    public void setKotwica(int kotwica) {
+        this.kotwica = kotwica;
+    }
 
     public Wiadomosc() {
     }
 
-    public Wiadomosc(int typ, int kotwica, String tytul, String link, String tresc) {
-        super(typ, kotwica, tytul);
+    public Wiadomosc(String link, String tresc, String tytul, int typ, int kotwica) {
         this.link = link;
         this.tresc = tresc;
+        this.tytul = tytul;
+        this.typ = typ;
+        this.kotwica = kotwica;
     }
 
     @Override
@@ -39,6 +74,9 @@ private String tresc;
         return "Wiadomosc{" +
                 "link='" + link + '\'' +
                 ", tresc='" + tresc + '\'' +
+                ", tytul='" + tytul + '\'' +
+                ", typ=" + typ +
+                ", kotwica=" + kotwica +
                 '}';
     }
 }
