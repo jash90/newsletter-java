@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -30,7 +31,6 @@ public class UserPanelActivity extends AppCompatActivity {
 
     private TextView typ, okres, wazny,ilosc_dostepow,wykorzystano;
     private LinearLayout ilosc, wykorzy;
-    private ImageView imageButton;
     private String login_token;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -76,8 +76,10 @@ public class UserPanelActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        imageButton = (ImageButton)findViewById(R.id.buttonImage);
-        imageButton.setColorFilter(R.color.black);
+        if (android.os.Build.VERSION.SDK_INT >= 21)
+            toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_black_hamburger, getBaseContext().getTheme()));
+        else
+            toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_black_hamburger));
         typ = (TextView)findViewById(R.id.typ);
         okres = (TextView) findViewById(R.id.okres);
         wazny = (TextView) findViewById(R.id.wazny_abonament);
@@ -126,6 +128,12 @@ public class UserPanelActivity extends AppCompatActivity {
             Log.d("error",ex.getLocalizedMessage());
         }
 
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.option_menu, menu);
+        return true;
     }
 
 }

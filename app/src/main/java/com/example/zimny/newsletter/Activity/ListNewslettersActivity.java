@@ -39,7 +39,6 @@ public class ListNewslettersActivity extends AppCompatActivity {
     private Integer pages;
     private RecyclerView rvNewsletter;
     private NewslettersAdapter adapter;
-    private ImageButton imageButton;
     private String login_token;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -89,8 +88,10 @@ public class ListNewslettersActivity extends AppCompatActivity {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         rvNewsletter.setLayoutManager(mLayoutManager);
         rvNewsletter.setItemAnimator(new DefaultItemAnimator());
-        imageButton = (ImageButton)findViewById(R.id.buttonImage);
-        imageButton.setColorFilter(R.color.black);
+        if (android.os.Build.VERSION.SDK_INT >= 21)
+            toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_black_hamburger, getBaseContext().getTheme()));
+        else
+            toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_black_hamburger));
         getListNewsletter(login_token);
         navigation.setSelectedItemId(R.id.navigation_newsletter);
     }
@@ -131,5 +132,10 @@ public class ListNewslettersActivity extends AppCompatActivity {
         }
        // adapter.notifyDataSetChanged();
     }
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.option_menu, menu);
+        return true;
+    }
 }
