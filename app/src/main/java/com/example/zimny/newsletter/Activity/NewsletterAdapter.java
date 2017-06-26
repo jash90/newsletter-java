@@ -193,9 +193,7 @@ public class NewsletterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                     public void onClick(final View v) {
                                         try {
                                             if (!komentarzEditText.getText().toString().isEmpty()) {
-                                                String login_token = Attributes.getLogin_token();
-                                                Log.d("dddd", login_token);
-                                                BeinsuredClient beinsuredClient = ServiceGenerator.createService(BeinsuredClient.class, login_token);
+                                                BeinsuredClient beinsuredClient = ServiceGenerator.createService(BeinsuredClient.class,  Attributes.getLogin_token());
                                                 Call<Komentarz> call = beinsuredClient.addcomment("2esde2#derdsr#RD", element.getId_aktualnosci(), komentarzEditText.getText().toString());
                                                 call.enqueue(new Callback<Komentarz>() {
                                                                  @Override

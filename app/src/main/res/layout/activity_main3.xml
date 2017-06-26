@@ -12,7 +12,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:src="@drawable/ic_logo3"
+            android:layout_gravity="left"
+            android:id="@+id/buttonImage"
+            android:onClick="Click"
+            android:layout_marginTop="-22dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="-22dp"
+            />
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"

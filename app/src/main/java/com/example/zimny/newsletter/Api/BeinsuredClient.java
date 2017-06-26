@@ -40,6 +40,13 @@ public interface BeinsuredClient {
     @GET("DefaultProfil/getPakiet?apiKey=2esde2%23derdsr%23RD")
     Call<Pakiet> getPakiet();
 
+    @FormUrlEncoded
+    @POST("RestAuth/refresh/")
+    Call<User> refresh(
+            @Field("login") String login,
+            @Field("password") String password,
+            @Field("apiKey") String apiKey);
+
 
 
 }

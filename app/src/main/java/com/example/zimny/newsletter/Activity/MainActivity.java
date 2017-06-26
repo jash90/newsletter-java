@@ -2,6 +2,7 @@ package com.example.zimny.newsletter.Activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -42,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText passwordEditText;
     private TextView linkTextView;
     private TextView text;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor sharedPreferencesEditor;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -62,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     };
+    private String PREFS_NAME = "NAME";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,11 +83,28 @@ public class MainActivity extends AppCompatActivity {
         text = (TextView) findViewById(R.id.textView) ;
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        sharedPreferences = this.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        sharedPreferencesEditor = sharedPreferences.edit();
+        Intent intent = getIntent();
+        if (intent.getStringExtra("logout")!=null)
+        {
+        if (intent.getStringExtra("logout").equals("logout"))
+        {
+            sharedPreferencesEditor.putString("pass","");
+            sharedPreferencesEditor.commit();
+        }}
+        if (!sharedPreferences.getString("login","").isEmpty())
+        {
+            loginEditText.setText(sharedPreferences.getString("login",""));
+        }
+        if (!sharedPreferences.getString("pass","").isEmpty())
+        {
+            passwordEditText.setText(sharedPreferences.getString("pass",""));
+        }
         if (!loginEditText.getText().toString().isEmpty() && !passwordEditText.getText().toString().isEmpty())
         {
-          //  Zaloguj(null);
+            Zaloguj(null);
         }
-
     }
 
     @Override
@@ -103,10 +124,19 @@ public class MainActivity extends AppCompatActivity {
                         Log.d("dddd",user.toString());
                         Toast.makeText(MainActivity.this, user.getMessage(), Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(MainActivity.this, ListNewslettersActivity.class);
-                        intent.putExtra("login_token", user.getLogin_token());
                         Attributes.setLogin_token(user.getLogin_token());
+                        Attributes.setLogin_token_exp(user.getLogin_token_exp());
+                        Attributes.setRefresh_token(user.getRefresh_token());
+                        Attributes.setRefresh_token_exp(user.getRefresh_token_exp());
+                        Attributes.setLogin(user.getLogin());
+                        Attributes.setPass(passwordEditText.getText().toString());
+                        sharedPreferencesEditor.putString("login", loginEditText.getText().toString());
+                        sharedPreferencesEditor.putString("pass", passwordEditText.getText().toString());
+                        sharedPreferencesEditor.commit(); //
                         startActivity(intent);
                     }
+                    else
+                        Log.d("dddd","NULL");
                 }
 
                 @Override

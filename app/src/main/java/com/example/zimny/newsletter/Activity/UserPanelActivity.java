@@ -21,6 +21,8 @@ import com.example.zimny.newsletter.Api.ServiceGenerator;
 import com.example.zimny.newsletter.Model.Pakiet;
 import com.example.zimny.newsletter.R;
 
+import java.sql.Timestamp;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,8 +33,6 @@ public class UserPanelActivity extends AppCompatActivity {
 
     private TextView typ, okres, wazny,ilosc_dostepow,wykorzystano;
     private LinearLayout ilosc, wykorzy;
-    private String login_token;
-
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -44,11 +44,11 @@ public class UserPanelActivity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_newsletter:
                     Intent newsletters = new Intent(UserPanelActivity.this,ListNewslettersActivity.class);
-                    newsletters.putExtra("login_token",login_token);
                     startActivity(newsletters);
                     return true;
                 case R.id.navigation_logout:
                     Intent intent = new Intent(UserPanelActivity.this,MainActivity.class);
+                    intent.putExtra("logout","logout");
                     startActivity(intent);
                     return true;
             }
@@ -66,20 +66,14 @@ public class UserPanelActivity extends AppCompatActivity {
                 .build()
         );
         setContentView(R.layout.activity_main4);
-        Intent intent = getIntent();
-        login_token = intent.getStringExtra("login_token");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.icon_beinsured);
-        toolbar.setLogo(R.drawable.icon_menu);
+        //toolbar.setNavigationIcon(R.drawable.icon_beinsured);
+      //  toolbar.setLogo(R.drawable.icon_menu);
         toolbar.setTitle("");
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        if (android.os.Build.VERSION.SDK_INT >= 21)
-            toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_black_hamburger, getBaseContext().getTheme()));
-        else
-            toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_black_hamburger));
         typ = (TextView)findViewById(R.id.typ);
         okres = (TextView) findViewById(R.id.okres);
         wazny = (TextView) findViewById(R.id.wazny_abonament);
@@ -87,18 +81,23 @@ public class UserPanelActivity extends AppCompatActivity {
         wykorzystano = (TextView)findViewById(R.id.wykorzystano);
         ilosc = (LinearLayout)findViewById(R.id.ilosc_layout);
         wykorzy = (LinearLayout)findViewById(R.id.wykorzy_layout);
-        getPakiet(login_token);
+        getPakiet();
 
     }
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
-    public void getPakiet(final String login_token) {
+    public void getPakiet() {
         try {
-            Log.d("dddd",login_token);
-
-            BeinsuredClient beinsuredClient = ServiceGenerator.createService(BeinsuredClient.class,login_token);
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            Timestamp token_time = Timestamp.valueOf(Attributes.getLogin_token_exp());
+            if (timestamp.after(token_time))
+            {
+                Attributes.refreshtoken();
+            }
+            else {
+            BeinsuredClient beinsuredClient = ServiceGenerator.createService(BeinsuredClient.class,Attributes.getLogin_token());
             Call<Pakiet> call = beinsuredClient.getPakiet();
             call.enqueue(new Callback<Pakiet>() {
                 @Override
@@ -122,7 +121,7 @@ public class UserPanelActivity extends AppCompatActivity {
                    Log.d("error ",t.getLocalizedMessage());
                 }
             });
-        }
+        }}
         catch (Exception ex)
         {
             Log.d("error",ex.getLocalizedMessage());

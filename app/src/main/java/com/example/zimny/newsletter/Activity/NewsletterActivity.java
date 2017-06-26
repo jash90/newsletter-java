@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -25,6 +26,7 @@ import com.example.zimny.newsletter.Model.Pozycja;
 import com.example.zimny.newsletter.Model.Tresc;
 import com.example.zimny.newsletter.R;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 
@@ -41,7 +43,6 @@ public class NewsletterActivity extends AppCompatActivity {
     private RecyclerView rvNewsletter;
     private NewsletterAdapter adapter;
     private int id_newsletter;
-    private String login_token;
     private Menu menu;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -50,17 +51,16 @@ public class NewsletterActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_myaccount:
-                    Intent panel = new Intent(NewsletterActivity.this, UserPanelActivity.class);
-                    panel.putExtra("login_token", login_token);
+                    Intent panel = new Intent(NewsletterActivity.this, UserPanelActivity.class);;
                     startActivity(panel);
                     return true;
                 case R.id.navigation_newsletter:
                     Intent newsletters = new Intent(NewsletterActivity.this, ListNewslettersActivity.class);
-                    newsletters.putExtra("login_token", login_token);
                     startActivity(newsletters);
                     return true;
                 case R.id.navigation_logout:
                     Intent logout = new Intent(NewsletterActivity.this, MainActivity.class);
+                    logout.putExtra("logout","logout");
                     startActivity(logout);
                     return true;
             }
@@ -79,16 +79,18 @@ public class NewsletterActivity extends AppCompatActivity {
         );
         setContentView(R.layout.activity_main3);
         Intent intent = getIntent();
-        login_token = intent.getStringExtra("login_token");
         id_newsletter = intent.getIntExtra("id_newsletter", -1);
         rvNewsletter = (RecyclerView) findViewById(R.id.newsletterRecycler);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.icon_beinsured);
-        if (android.os.Build.VERSION.SDK_INT >= 21)
+      //  toolbar.setNavigationIcon(R.drawable.icon_beinsured);
+    //    menu.findItem(Menu.FIRST).setIcon(R.drawable.ic_black_hamburger);
+        //toolbar.setOverflowIcon(ContextCompat.getDrawable(this, R.drawable.ic_black_hamburger));
+        //menu = (Menu) findViewById(R.menu.option_menu);
+        /*if (android.os.Build.VERSION.SDK_INT >= 21)
             toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_black_hamburger, getBaseContext().getTheme()));
         else
-            toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_black_hamburger));
+            toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_black_hamburger));*/
         toolbar.setTitle("");
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -98,9 +100,9 @@ public class NewsletterActivity extends AppCompatActivity {
         rvNewsletter.setLayoutManager(mLayoutManager);
         rvNewsletter.setItemAnimator(new DefaultItemAnimator());
         Log.d("dddd", "id_newsletter " + String.valueOf(id_newsletter));
-        Log.d("dddd", "login_token " + login_token);
+        Log.d("dddd", "login_token " + Attributes.getLogin_token());
         if (id_newsletter != -1)
-            getNewsletter(login_token, id_newsletter);
+            getNewsletter( id_newsletter);
         else
             Log.d("dddd", "błąd");
         String s = "";
@@ -109,44 +111,51 @@ public class NewsletterActivity extends AppCompatActivity {
         Log.d("dd", s);
     }
 
-    private void getNewsletter(final String login_token, int id_newsletter) {
+    private void getNewsletter(int id_newsletter) {
         try {
-            Log.d("dddd", login_token);
             Log.d("dddd", String.valueOf(id_newsletter));
-            BeinsuredClient beinsuredClient = ServiceGenerator.createService(BeinsuredClient.class, login_token);
-            Call<NewsletterContent> call = beinsuredClient.getNewsletter(id_newsletter);
-            call.enqueue(new Callback<NewsletterContent>() {
-                @Override
-                public void onResponse(Call<NewsletterContent> call, Response<NewsletterContent> response) {
-                    NewsletterContent newsletterContent = response.body();
-                    Log.d("ddd", newsletterContent.toString());
-                    if (response.isSuccessful()) {
-                        try {
-                            elements = newsletterContent.getData().getZawartosc();
-                            adapter = new NewsletterAdapter(elements);
-                            rvNewsletter.setAdapter(adapter);
-                            adapter.notifyDataSetChanged();
-                            int i = 0;
-                            while (i < elements.size()) {
-                                if (elements.get(i).getTyp() != 0 && elements.get(i).getKotwica() != 0 && elements.get(i).getTyp() != 3) {
-                                    menu.add(elements.get(i).getTytul());
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            Timestamp token_time = Timestamp.valueOf(Attributes.getLogin_token_exp());
+            if (timestamp.after(token_time))
+            {
+                Attributes.refreshtoken();
+            }
+            else {
+                BeinsuredClient beinsuredClient = ServiceGenerator.createService(BeinsuredClient.class, Attributes.getLogin_token());
+                Call<NewsletterContent> call = beinsuredClient.getNewsletter(id_newsletter);
+                call.enqueue(new Callback<NewsletterContent>() {
+                    @Override
+                    public void onResponse(Call<NewsletterContent> call, Response<NewsletterContent> response) {
+                        NewsletterContent newsletterContent = response.body();
+                        Log.d("ddd", newsletterContent.toString());
+                        if (response.isSuccessful()) {
+                            try {
+                                elements = newsletterContent.getData().getZawartosc();
+                                adapter = new NewsletterAdapter(elements);
+                                rvNewsletter.setAdapter(adapter);
+                                adapter.notifyDataSetChanged();
+                                int i = 0;
+                                while (i < elements.size()) {
+                                    if (elements.get(i).getTyp() != 0 && elements.get(i).getKotwica() != 0 && elements.get(i).getTyp() != 3) {
+                                        menu.add(elements.get(i).getTytul());
+                                    }
+
+                                    i++;
                                 }
 
-                                i++;
+                            } catch (Exception ex) {
+                                Log.d("ddd", ex.getLocalizedMessage());
                             }
+                        } else
+                            Log.d("else", "Błąd");
+                    }
 
-                        } catch (Exception ex) {
-                            Log.d("ddd", ex.getLocalizedMessage());
-                        }
-                    } else
-                        Log.d("else", "Błąd");
-                }
-
-                @Override
-                public void onFailure(Call<NewsletterContent> call, Throwable t) {
-                    Log.d("onFailure", t.getLocalizedMessage());
-                }
-            });
+                    @Override
+                    public void onFailure(Call<NewsletterContent> call, Throwable t) {
+                        Log.d("onFailure", t.getLocalizedMessage());
+                    }
+                });
+            }
         } catch (Exception ex) {
             Log.d("try", ex.getLocalizedMessage());
         }
@@ -159,9 +168,10 @@ public class NewsletterActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.option_menu, menu);
-        this.menu = menu;
+      super.onCreateOptionsMenu(menu);
+    //  getMenuInflater().inflate(R.menu.option_menu, menu);
+      this.menu = menu;
+
         return true;
     }
 

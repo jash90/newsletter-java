@@ -28,7 +28,6 @@ public class NewslettersAdapter extends RecyclerView.Adapter<NewslettersAdapter.
 
     private Context context;
     private ArrayList<Newsletter> newsletters;
-    private String login_token;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title, date;
@@ -44,9 +43,8 @@ public class NewslettersAdapter extends RecyclerView.Adapter<NewslettersAdapter.
     }
 
 
-    public NewslettersAdapter(ArrayList<Newsletter> newsletterList, String login_token) {
+    public NewslettersAdapter(ArrayList<Newsletter> newsletterList) {
         this.newsletters = newsletterList;
-        this.login_token = login_token;
     }
 
     @Override
@@ -71,7 +69,6 @@ public class NewslettersAdapter extends RecyclerView.Adapter<NewslettersAdapter.
 
 
                 Intent intent = new Intent(context.getApplicationContext(), NewsletterActivity.class);
-                intent.putExtra("login_token", login_token);
                 intent.putExtra("id_newsletter", newsletter.getId());
                 context.startActivity(intent);
 

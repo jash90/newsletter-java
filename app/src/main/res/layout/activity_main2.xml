@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:id="@+id/container"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:background="@android:color/white"
-android:orientation="vertical"
-tools:context="com.example.zimny.newsletter.Activity.MainActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    tools:context="com.example.zimny.newsletter.Activity.MainActivity">
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -16,10 +16,13 @@ tools:context="com.example.zimny.newsletter.Activity.MainActivity">
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@android:color/white"
-            android:src="@drawable/icon_menu"
-            android:layout_gravity="right"
+            android:src="@drawable/ic_logo3"
+            android:layout_gravity="left"
             android:id="@+id/buttonImage"
             android:onClick="Click"
+            android:layout_marginTop="-22dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="-22dp"
             />
 
         <android.support.v7.widget.Toolbar
@@ -39,34 +42,34 @@ tools:context="com.example.zimny.newsletter.Activity.MainActivity">
         android:textColor="@color/plume"
         android:textSize="18dp"
         fontPath="fonts/OpenSans-Bold.ttf"/>
-<FrameLayout
-    android:id="@+id/content"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1">
-    <LinearLayout
-      android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:weightSum="1">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/newslettersRecycler"
+    <FrameLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="1">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/newslettersRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-    </LinearLayout>
+        </LinearLayout>
 
-</FrameLayout>
+    </FrameLayout>
 
-<android.support.design.widget.BottomNavigationView
-    android:id="@+id/navigation"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="bottom"
-    android:background="@color/plume"
-    app:itemTextColor="@android:color/white"
-    app:itemIconTint="@android:color/white"
-    app:menu="@menu/navigation"
-    />
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/plume"
+        app:itemTextColor="@android:color/white"
+        app:itemIconTint="@android:color/white"
+        app:menu="@menu/navigation"
+        />
 
 </LinearLayout>
