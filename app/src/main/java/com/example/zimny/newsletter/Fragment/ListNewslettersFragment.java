@@ -1,30 +1,30 @@
-package com.example.zimny.newsletter.Activity;
+package com.example.zimny.newsletter.Fragment;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
+import android.view.ViewGroup;
 
+import com.example.zimny.newsletter.Activity.Attributes;
+import com.example.zimny.newsletter.Activity.NewslettersAdapter;
 import com.example.zimny.newsletter.Api.ServiceGenerator;
 import com.example.zimny.newsletter.Model.Newsletter;
 import com.example.zimny.newsletter.Api.BeinsuredClient;
 import com.example.zimny.newsletter.Model.Newsletters;
-import com.example.zimny.newsletter.Model.User;
 import com.example.zimny.newsletter.R;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -35,7 +35,7 @@ import retrofit2.Response;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class ListNewslettersActivity extends AppCompatActivity {
+public class ListNewslettersFragment extends Fragment {
 
 
     private ArrayList<Newsletter> newsletterArrayList;
@@ -43,67 +43,24 @@ public class ListNewslettersActivity extends AppCompatActivity {
     private Integer pages;
     private RecyclerView rvNewsletter;
     private NewslettersAdapter adapter;
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_myaccount:
-                    Intent panel = new Intent(ListNewslettersActivity.this,UserPanelActivity.class);
-                    startActivity(panel);
-                    return true;
-                case R.id.navigation_newsletter:
-
-                    return true;
-                case R.id.navigation_logout:
-                        Intent logout = new Intent(ListNewslettersActivity.this,MainActivity.class);
-                    logout.putExtra("logout","logout");
-                        startActivity(logout);
-                    return true;
-            }
-            return false;
-        }
-
-    };
 
 
-
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/OpenSans-Regular.ttf")
-                .setFontAttrId(R.attr.fontPath)
-                .build()
-        );
-        setContentView(R.layout.activity_main2);
-        Intent intent = getIntent();
-        rvNewsletter= (RecyclerView) findViewById(R.id.newslettersRecycler);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-     //   toolbar.setNavigationIcon(R.drawable.icon_beinsured);
-        toolbar.setTitle("");
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.activity_main2, container,false);
+        rvNewsletter= (RecyclerView) v.findViewById(R.id.newslettersRecycler);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
+        //   toolbar.setNavigationIcon(R.drawable.icon_beinsured);
+        //toolbar.setTitle("");
+        //getSupportActionBar().setDisplayShowTitleEnabled(false);
         newsletterArrayList = new ArrayList<>();
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         rvNewsletter.setLayoutManager(mLayoutManager);
         rvNewsletter.setItemAnimator(new DefaultItemAnimator());
-
-        //toolbar.setOverflowIcon(ContextCompat.getDrawable(this, R.drawable.ic_black_hamburger));
-
-        /*if (android.os.Build.VERSION.SDK_INT >= 21)
-            toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_black_hamburger, getBaseContext().getTheme()));
-        else
-            toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_black_hamburger));*/
         getListNewsletter();
-        navigation.setSelectedItemId(R.id.navigation_newsletter);
-    }
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+        return v;
     }
     public void getListNewsletter() {
         try {
@@ -144,5 +101,6 @@ public class ListNewslettersActivity extends AppCompatActivity {
         }
        // adapter.notifyDataSetChanged();
     }
+
 
 }

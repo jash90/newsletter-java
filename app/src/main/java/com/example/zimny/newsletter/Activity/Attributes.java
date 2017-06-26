@@ -14,7 +14,7 @@ import retrofit2.Response;
  * Created by ideo7 on 14.06.2017.
  */
 
-class Attributes {
+public class Attributes {
     public static String login_token;
     public static String login_token_exp;
     public static String refresh_token;

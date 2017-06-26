@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@android:color/white"
-    tools:context="com.example.zimny.newsletter.Activity.UserPanelActivity">
+    tools:context="com.example.zimny.newsletter.Fragment.UserPanelFragment">
 
     <FrameLayout
         android:layout_width="match_parent"

@@ -11,14 +11,13 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.zimny.newsletter.Fragment.NewsletterFragment;
 import com.example.zimny.newsletter.Model.Newsletter;
 import com.example.zimny.newsletter.R;
 
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by ideo7 on 05.06.2017.
@@ -68,7 +67,7 @@ public class NewslettersAdapter extends RecyclerView.Adapter<NewslettersAdapter.
             public void onClick(View v) {
 
 
-                Intent intent = new Intent(context.getApplicationContext(), NewsletterActivity.class);
+                Intent intent = new Intent(context.getApplicationContext(), NewsletterFragment.class);
                 intent.putExtra("id_newsletter", newsletter.getId());
                 context.startActivity(intent);
 

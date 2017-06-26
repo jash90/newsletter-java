@@ -1,23 +1,27 @@
-package com.example.zimny.newsletter.Activity;
+package com.example.zimny.newsletter.Fragment;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.zimny.newsletter.Activity.Attributes;
 import com.example.zimny.newsletter.Api.BeinsuredClient;
 import com.example.zimny.newsletter.Api.ServiceGenerator;
+import com.example.zimny.newsletter.Fragment.ListNewslettersFragment;
 import com.example.zimny.newsletter.Model.Pakiet;
 import com.example.zimny.newsletter.R;
 
@@ -29,65 +33,32 @@ import retrofit2.Response;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class UserPanelActivity extends AppCompatActivity {
+public class UserPanelFragment extends Fragment {
 
     private TextView typ, okres, wazny,ilosc_dostepow,wykorzystano;
     private LinearLayout ilosc, wykorzy;
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_myaccount:
-
-                    return true;
-                case R.id.navigation_newsletter:
-                    Intent newsletters = new Intent(UserPanelActivity.this,ListNewslettersActivity.class);
-                    startActivity(newsletters);
-                    return true;
-                case R.id.navigation_logout:
-                    Intent intent = new Intent(UserPanelActivity.this,MainActivity.class);
-                    intent.putExtra("logout","logout");
-                    startActivity(intent);
-                    return true;
-            }
-            return false;
-        }
-
-    };
-
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/OpenSans-Regular.ttf")
-                .setFontAttrId(R.attr.fontPath)
-                .build()
-        );
-        setContentView(R.layout.activity_main4);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.activity_main4, container,false);
         //toolbar.setNavigationIcon(R.drawable.icon_beinsured);
-      //  toolbar.setLogo(R.drawable.icon_menu);
-        toolbar.setTitle("");
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        typ = (TextView)findViewById(R.id.typ);
-        okres = (TextView) findViewById(R.id.okres);
-        wazny = (TextView) findViewById(R.id.wazny_abonament);
-        ilosc_dostepow = (TextView) findViewById(R.id.ilosc_dostepow);
-        wykorzystano = (TextView)findViewById(R.id.wykorzystano);
-        ilosc = (LinearLayout)findViewById(R.id.ilosc_layout);
-        wykorzy = (LinearLayout)findViewById(R.id.wykorzy_layout);
+        //  toolbar.setLogo(R.drawable.icon_menu);
+        //toolbar.setTitle("");
+        //getSupportActionBar().setDisplayShowTitleEnabled(false);
+        //BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        //navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        typ = (TextView) v.findViewById(R.id.typ);
+        okres = (TextView) v.findViewById(R.id.okres);
+        wazny = (TextView) v.findViewById(R.id.wazny_abonament);
+        ilosc_dostepow = (TextView) v.findViewById(R.id.ilosc_dostepow);
+        wykorzystano = (TextView) v.findViewById(R.id.wykorzystano);
+        ilosc = (LinearLayout) v.findViewById(R.id.ilosc_layout);
+        wykorzy = (LinearLayout) v.findViewById(R.id.wykorzy_layout);
         getPakiet();
+        return v;
+    }
 
-    }
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-    }
     public void getPakiet() {
         try {
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -128,11 +99,6 @@ public class UserPanelActivity extends AppCompatActivity {
         }
 
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.option_menu, menu);
-        return true;
-    }
+
 
 }
