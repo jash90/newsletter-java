@@ -1,19 +1,13 @@
 package com.example.zimny.newsletter.Fragment;
 
-import android.content.Context;
-import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -32,8 +26,6 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ListNewslettersFragment extends Fragment {
 
@@ -71,7 +63,7 @@ public class ListNewslettersFragment extends Fragment {
                 Attributes.refreshtoken();
             }
             else {
-                BeinsuredClient beinsuredClient = ServiceGenerator.createService(BeinsuredClient.class, Attributes.getLogin_token());
+                BeinsuredClient beinsuredClient = ServiceGenerator.createServiceAuthtoken(BeinsuredClient.class, "beinsured","beinsu12");
                 Call<Newsletters> call = beinsuredClient.getListNewsletter();
                 call.enqueue(new Callback<Newsletters>() {
                     @Override
@@ -86,6 +78,8 @@ public class ListNewslettersFragment extends Fragment {
                             rvNewsletter.setAdapter(adapter);
                             adapter.notifyDataSetChanged();
                         }
+                        else
+                            Log.d("error", "error");
                     }
 
                     @Override
