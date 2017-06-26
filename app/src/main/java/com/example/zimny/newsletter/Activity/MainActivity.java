@@ -99,9 +99,9 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<User> call, Response<User> response) {
                     user = response.body();
-                    Log.d("dddd",user.toString());
-                    Toast.makeText(MainActivity.this, user.getMessage(), Toast.LENGTH_SHORT).show();
                     if (user!=null && user.getStatus().equals("0")) {
+                        Log.d("dddd",user.toString());
+                        Toast.makeText(MainActivity.this, user.getMessage(), Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(MainActivity.this, ListNewslettersActivity.class);
                         intent.putExtra("login_token", user.getLogin_token());
                         Attributes.setLogin_token(user.getLogin_token());

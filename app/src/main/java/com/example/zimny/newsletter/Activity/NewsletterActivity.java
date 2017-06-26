@@ -2,6 +2,7 @@ package com.example.zimny.newsletter.Activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
 
@@ -38,7 +40,6 @@ public class NewsletterActivity extends AppCompatActivity {
     private RecyclerView rvNewsletter;
     private NewsletterAdapter adapter;
     private int id_newsletter;
-    private ImageButton imageButton;
     private String login_token;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -82,7 +83,10 @@ public class NewsletterActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.icon_beinsured);
-        toolbar.setLogo(R.drawable.icon_menu);
+        if (android.os.Build.VERSION.SDK_INT >=21)
+        toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_black_hamburger,getBaseContext().getTheme()));
+        else
+            toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_black_hamburger));
         toolbar.setTitle("");
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -91,8 +95,6 @@ public class NewsletterActivity extends AppCompatActivity {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         rvNewsletter.setLayoutManager(mLayoutManager);
         rvNewsletter.setItemAnimator(new DefaultItemAnimator());
-        imageButton = (ImageButton)findViewById(R.id.buttonImage);
-        imageButton.setColorFilter(R.color.black);
         Log.d("dddd", "id_newsletter "+ String.valueOf(id_newsletter));
         Log.d("dddd","login_token "+ login_token);
         if (id_newsletter!=-1)
@@ -119,33 +121,9 @@ public class NewsletterActivity extends AppCompatActivity {
                     {
                         try{
                         elements = newsletterContent.getData().getZawartosc();
-                        ArrayList<Tresc> spis_tresci = new ArrayList<Tresc>();
-                        int i =0;
-                        while(i<elements.size())
-                        {
-                            if (elements.get(i).getTyp()==0)
-                            {
-                                Tresc tresc = new Tresc();
-                                tresc.setTytul(elements.get(i).getTytul());
-                                ArrayList<Pozycja> pozycjas = new ArrayList<Pozycja>();
-                                i++;
-                                while(elements.get(i).getTyp()!=0 && i<elements.size()){
-
-                                    Pozycja pozycja = new Pozycja(elements.get(i).getTytul(),elements.get(i).getKotwica());
-                                    if (elements.get(i).getTyp()!=3)
-                                    pozycjas.add(pozycja);
-                                    i++;
-                                }
-
-                                spis_tresci.add(tresc);
-                            }
-                        }
-                        for(Tresc t : spis_tresci)
-                            Log.d("tresc",t.toString());
                         adapter = new NewsletterAdapter(elements);
                         rvNewsletter.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
-                        Log.d("ddd",elements.toString());
                     }
                     catch(Exception ex)
                     {
@@ -171,5 +149,13 @@ public class NewsletterActivity extends AppCompatActivity {
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.option_menu, menu);
+        menu.add("text");
+        //   menu.add()
+        return true;
     }
 }

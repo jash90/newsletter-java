@@ -131,13 +131,5 @@ public class ListNewslettersActivity extends AppCompatActivity {
         }
        // adapter.notifyDataSetChanged();
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.option_menu, menu);
-        //menu.add("text");
-     //   menu.add()
-        return true;
-    }
 
 }
