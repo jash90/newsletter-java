@@ -21,6 +21,7 @@ public class Attributes {
     public static String refresh_token_exp;
     public static String login;
     public static String pass;
+    public static int id_newsletter;
 
     public static String getLogin_token() {
         return login_token;
@@ -69,6 +70,15 @@ public class Attributes {
     public static void setPass(String pass) {
         Attributes.pass = pass;
     }
+
+    public static int getId_newsletter() {
+        return id_newsletter;
+    }
+
+    public static void setId_newsletter(int id_newsletter) {
+        Attributes.id_newsletter = id_newsletter;
+    }
+
     public static void refreshtoken()
     {
         try {
@@ -86,6 +96,8 @@ public class Attributes {
                         Attributes.setRefresh_token(user.getRefresh_token());
                         Attributes.setRefresh_token_exp(user.getRefresh_token_exp());
                     }
+                    else
+                        Log.d("error","eror");
                 }
 
                 @Override
@@ -99,4 +111,5 @@ public class Attributes {
             Log.d("error",ex.getLocalizedMessage());
         }
     }
+
 }

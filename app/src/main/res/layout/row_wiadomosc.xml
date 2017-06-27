@@ -7,9 +7,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18dp"
-        android:layout_marginLeft="40dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="22dp"
-        android:layout_marginRight="40dp"
+        android:layout_marginRight="16dp"
         android:id="@+id/tytul_wiadomosci"
         android:text=""
         fontPath="fonts/OpenSans-Bold.ttf"
@@ -18,9 +18,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="22dp"
-        android:layout_marginLeft="40dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="40dp"
+        android:layout_marginRight="16dp"
         android:id="@+id/tresc_wiadomosci"
         fontPath="fonts/OpenSans-Bold.ttf">
 

@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +47,7 @@ public class NewsletterFragment extends Fragment {
     private NewsletterAdapter adapter;
     private int id_newsletter;
     private Menu menu;
+    private Toolbar toolbar;
 
     @Nullable
     @Override
@@ -52,7 +55,20 @@ public class NewsletterFragment extends Fragment {
         View v = inflater.inflate(R.layout.activity_main3, container,false);
         //id_newsletter = intent.getIntExtra("id_newsletter", -1);
         rvNewsletter = (RecyclerView) v.findViewById(R.id.newsletterRecycler);
+        toolbar = (Toolbar) v.findViewById(R.id.toolbar);
+        menu = toolbar.getMenu();
+        toolbar.setOverflowIcon(ContextCompat.getDrawable(getContext(),R.drawable.ic_black_hamburger));
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                for (int i = 0; i < elements.size(); i++)
+                    if (item.getTitle() == elements.get(i).getTytul()) {
+                        rvNewsletter.scrollToPosition(i);
+                    }
+                        return true;
 
+
+        }});
         //  toolbar.setNavigationIcon(R.drawable.icon_beinsured);
         //    menu.findItem(Menu.FIRST).setIcon(R.drawable.ic_black_hamburger);
         //toolbar.setOverflowIcon(ContextCompat.getDrawable(this, R.drawable.ic_black_hamburger));
@@ -69,10 +85,10 @@ public class NewsletterFragment extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         rvNewsletter.setLayoutManager(mLayoutManager);
         rvNewsletter.setItemAnimator(new DefaultItemAnimator());
-        Log.d("dddd", "id_newsletter " + String.valueOf(id_newsletter));
+        Log.d("dddd", "id_newsletter " + String.valueOf(Attributes.getId_newsletter()));
         Log.d("dddd", "login_token " + Attributes.getLogin_token());
-        if (id_newsletter != -1)
-            getNewsletter( id_newsletter);
+        if (Attributes.getId_newsletter() != -1)
+            getNewsletter( Attributes.getId_newsletter());
         else
             Log.d("dddd", "błąd");
         String s = "";
@@ -87,20 +103,22 @@ public class NewsletterFragment extends Fragment {
     private void getNewsletter(int id_newsletter) {
         try {
             Log.d("dddd", String.valueOf(id_newsletter));
+            //Log.d("dddd", String.valueOf(A));
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             Timestamp token_time = Timestamp.valueOf(Attributes.getLogin_token_exp());
-            if (timestamp.after(token_time))
-            {
+   //    if (timestamp.after(token_time))
+        //{
                 Attributes.refreshtoken();
-            }
-            else {
-                BeinsuredClient beinsuredClient = ServiceGenerator.createService(BeinsuredClient.class, Attributes.getLogin_token());
+     //   }
+   //      else {
+                BeinsuredClient beinsuredClient = ServiceGenerator.createServiceAuthtoken(BeinsuredClient.class, "beinsured","beinsu12");
                 Call<NewsletterContent> call = beinsuredClient.getNewsletter(id_newsletter);
                 call.enqueue(new Callback<NewsletterContent>() {
                     @Override
                     public void onResponse(Call<NewsletterContent> call, Response<NewsletterContent> response) {
                         NewsletterContent newsletterContent = response.body();
-                        Log.d("ddd", newsletterContent.toString());
+                        if (newsletterContent!=null)
+                        {Log.d("ddd", newsletterContent.toString());}
                         if (response.isSuccessful()) {
                             try {
                                 elements = newsletterContent.getData().getZawartosc();
@@ -128,30 +146,10 @@ public class NewsletterFragment extends Fragment {
                         Log.d("onFailure", t.getLocalizedMessage());
                     }
                 });
-            }
+         //   }
         } catch (Exception ex) {
             Log.d("try", ex.getLocalizedMessage());
         }
     }
 
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//      super.onCreateOptionsMenu(menu);
-//    //  getMenuInflater().inflate(R.menu.option_menu, menu);
-//      this.menu = menu;
-//
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        for (int i = 0; i < elements.size(); i++)
-//            if (item.getTitle() == elements.get(i).getTytul()) {
-//                rvNewsletter.scrollToPosition(i);
-//                return true;
-//            }
-//        return super.onOptionsItemSelected(item);
-//
-//    }
 }

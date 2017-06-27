@@ -52,6 +52,9 @@ public class LoginFragment extends Fragment {
     private EditText passwordEditText;
     private TextView linkTextView;
     private Button zalogujButton;
+    private String PREFS_NAME = "NAME";
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor sharedPreferencesEditor;
 
     @Nullable
     @Override
@@ -68,6 +71,20 @@ public class LoginFragment extends Fragment {
                 Zaloguj(v);
             }
         });
+        sharedPreferences = getContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        sharedPreferencesEditor = sharedPreferences.edit();
+        if (!sharedPreferences.getString("login","").isEmpty())
+        {
+            loginEditText.setText(sharedPreferences.getString("login",""));
+        }
+        if (!sharedPreferences.getString("pass","").isEmpty())
+        {
+            passwordEditText.setText(sharedPreferences.getString("pass",""));
+        }
+        if (!loginEditText.getText().toString().isEmpty() && !passwordEditText.getText().toString().isEmpty())
+        {
+            Zaloguj(null);
+        }
         return v;
     }
 
@@ -90,15 +107,16 @@ public class LoginFragment extends Fragment {
                         Attributes.setRefresh_token_exp(user.getRefresh_token_exp());
                         Attributes.setLogin(user.getLogin());
                         Attributes.setPass(passwordEditText.getText().toString());
-//                        sharedPreferencesEditor.putString("login", loginEditText.getText().toString());
-//                        sharedPreferencesEditor.putString("pass", passwordEditText.getText().toString());
-//                        sharedPreferencesEditor.commit(); //
+                        SharedPreferences.Editor sharedPreferencesEditor =getContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit();
+                        sharedPreferencesEditor.putString("login", loginEditText.getText().toString());
+                        sharedPreferencesEditor.putString("pass", passwordEditText.getText().toString());
+                        sharedPreferencesEditor.commit(); //
                         //startActivity(intent);
                         FragmentManager fragmentManager =getFragmentManager();
                         FragmentTransaction fragmentTransaction =fragmentManager.beginTransaction();
                         ListNewslettersFragment listNewslettersFragment = new ListNewslettersFragment();
                         fragmentTransaction.replace(R.id.content, listNewslettersFragment);
-                        fragmentTransaction.addToBackStack("loginFragment");
+                        fragmentTransaction.addToBackStack("Fragment");
                         fragmentTransaction.commit();
                     }
                     else

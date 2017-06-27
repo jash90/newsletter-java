@@ -68,7 +68,7 @@ public class UserPanelFragment extends Fragment {
                 Attributes.refreshtoken();
             }
             else {
-            BeinsuredClient beinsuredClient = ServiceGenerator.createService(BeinsuredClient.class,Attributes.getLogin_token());
+            BeinsuredClient beinsuredClient = ServiceGenerator.createServiceAuthtoken(BeinsuredClient.class,"beinsured","beinsu12");
             Call<Pakiet> call = beinsuredClient.getPakiet();
             call.enqueue(new Callback<Pakiet>() {
                 @Override

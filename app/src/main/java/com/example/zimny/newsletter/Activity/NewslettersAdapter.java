@@ -1,8 +1,12 @@
 package com.example.zimny.newsletter.Activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.zimny.newsletter.Fragment.ListNewslettersFragment;
 import com.example.zimny.newsletter.Fragment.NewsletterFragment;
 import com.example.zimny.newsletter.Model.Newsletter;
 import com.example.zimny.newsletter.R;
@@ -67,9 +72,13 @@ public class NewslettersAdapter extends RecyclerView.Adapter<NewslettersAdapter.
             public void onClick(View v) {
 
 
-                Intent intent = new Intent(context.getApplicationContext(), NewsletterFragment.class);
-                intent.putExtra("id_newsletter", newsletter.getId());
-                context.startActivity(intent);
+                FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                Attributes.setId_newsletter(newsletter.getId());
+                NewsletterFragment newsletterFragment = new NewsletterFragment();
+                fragmentTransaction.replace(R.id.content, newsletterFragment);
+                fragmentTransaction.addToBackStack("Fragment");
+                fragmentTransaction.commit();
 
 
             }

@@ -25,7 +25,7 @@ public interface BeinsuredClient {
             @Field("apiKey") String apiKey);
 
     @GET("DefaultProfil/getListaNewsleter?apiKey=2esde2%23derdsr%23RD")
-    Call<Newsletters> getListNewsletter();
+    Call<Newsletters> getListNewsletter(@Query("page") int page);
 
     @GET("DefaultProfil/getNewsleter?apiKey=2esde2%23derdsr%23RD")
     Call<NewsletterContent> getNewsletter(@Query("newsletter") int newsletter);
