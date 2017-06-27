@@ -19,8 +19,8 @@ public class Attributes {
     public static String login_token_exp;
     public static String refresh_token;
     public static String refresh_token_exp;
-    public static String login;
-    public static String pass;
+    public static String login ="";
+    public static String pass ="";
     public static int id_newsletter;
 
     public static String getLogin_token() {
@@ -83,7 +83,7 @@ public class Attributes {
     {
         try {
 
-            BeinsuredClient beinsuredClient = ServiceGenerator.createService(BeinsuredClient.class,Attributes.getRefresh_token());
+            BeinsuredClient beinsuredClient = ServiceGenerator.createServiceRefreshtoken(BeinsuredClient.class,"beinsured","beinsu12");
             Call<User> call = beinsuredClient.refresh(Attributes.getLogin(),Attributes.getPass(),"2esde2#derdsr#RD");
             call.enqueue(new Callback<User>() {
                 @Override

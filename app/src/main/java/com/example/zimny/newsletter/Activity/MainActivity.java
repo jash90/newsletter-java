@@ -47,42 +47,39 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            if (!Attributes.getLogin().isEmpty() && !Attributes.getPass().isEmpty())
-            {
-            switch (item.getItemId()) {
-                case R.id.navigation_myaccount:
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    UserPanelFragment userPanelFragment = new UserPanelFragment();
-                    fragmentTransaction.replace(R.id.content, userPanelFragment);
-                    fragmentTransaction.addToBackStack("Fragment");
-                    fragmentTransaction.commit();
-                    return true;
-                case R.id.navigation_newsletter:
-                    FragmentManager fragmentManager2 = getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction2 = fragmentManager2.beginTransaction();
-                    ListNewslettersFragment listNewslettersFragment = new ListNewslettersFragment();
-                    fragmentTransaction2.replace(R.id.content, listNewslettersFragment);
-                    fragmentTransaction2.addToBackStack("Fragment");
-                    fragmentTransaction2.commit();
-                    return true;
-                case R.id.navigation_logout:
-                    sharedPreferencesEditor.putString("pass","");
-                    sharedPreferencesEditor.commit();
-                    FragmentManager fragmentManager3 = getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction3 = fragmentManager3.beginTransaction();
-                    LoginFragment loginFragment = new LoginFragment();
-                    fragmentTransaction3.replace(R.id.content, loginFragment);
-                    fragmentTransaction3.addToBackStack("Fragment");
-                    fragmentTransaction3.commit();
-                    return true;
-            }
+            if (!sharedPreferences.getString("login", "").isEmpty() && !sharedPreferences.getString("pass", "").isEmpty()) {
+                switch (item.getItemId()) {
+                    case R.id.navigation_myaccount:
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        UserPanelFragment userPanelFragment = new UserPanelFragment();
+                        fragmentTransaction.replace(R.id.content, userPanelFragment);
+                        fragmentTransaction.addToBackStack("Fragment");
+                        fragmentTransaction.commit();
+                        return true;
+                    case R.id.navigation_newsletter:
+                        FragmentManager fragmentManager2 = getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction2 = fragmentManager2.beginTransaction();
+                        ListNewslettersFragment listNewslettersFragment = new ListNewslettersFragment();
+                        fragmentTransaction2.replace(R.id.content, listNewslettersFragment);
+                        fragmentTransaction2.addToBackStack("Fragment");
+                        fragmentTransaction2.commit();
+                        return true;
+                    case R.id.navigation_logout:
+                        sharedPreferencesEditor.putString("pass", "");
+                        sharedPreferencesEditor.commit();
+                        FragmentManager fragmentManager3 = getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction3 = fragmentManager3.beginTransaction();
+                        LoginFragment loginFragment = new LoginFragment();
+                        fragmentTransaction3.replace(R.id.content, loginFragment);
+                        fragmentTransaction3.addToBackStack("Fragment");
+                        fragmentTransaction3.commit();
+                        return true;
+                }
 
-            }
-            else
-            {
+            } else {
                 Toast.makeText(getBaseContext(), "Najpierw musisz się zalogować", Toast.LENGTH_SHORT).show();
-                return true;
+
             }
             return false;
         }
@@ -115,17 +112,18 @@ public class MainActivity extends AppCompatActivity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
-    public void Zaloguj(View view) {
+
+    public void zaloguj(View view) {
 
         try {
-            BeinsuredClient beinsuredClient = ServiceGenerator.createService(BeinsuredClient.class,"beinsured","beinsu12");
-            Call<User> call = beinsuredClient.login(loginEditText.getText().toString(), passwordEditText.getText().toString(),"2esde2#derdsr#RD");
+            BeinsuredClient beinsuredClient = ServiceGenerator.createService(BeinsuredClient.class, "beinsured", "beinsu12");
+            Call<User> call = beinsuredClient.login(loginEditText.getText().toString(), passwordEditText.getText().toString(), "2esde2#derdsr#RD");
             call.enqueue(new Callback<User>() {
                 @Override
                 public void onResponse(Call<User> call, Response<User> response) {
                     user = response.body();
-                    if (user!=null && user.getStatus().equals("0")) {
-                        Log.d("dddd",user.toString());
+                    if (user != null && user.getStatus().equals("0")) {
+                        Log.d("dddd", user.toString());
                         //Toast.makeText(, user.getMessage(), Toast.LENGTH_SHORT).show();
                         //Intent intent = new Intent(MainActivity.this, ListNewslettersFragment.class);
                         Attributes.setLogin_token(user.getLogin_token());
@@ -138,28 +136,25 @@ public class MainActivity extends AppCompatActivity {
                         sharedPreferencesEditor.putString("pass", passwordEditText.getText().toString());
                         sharedPreferencesEditor.commit(); //
                         //startActivity(intent);
-                        FragmentManager fragmentManager =getSupportFragmentManager();
-                        FragmentTransaction fragmentTransaction =fragmentManager.beginTransaction();
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         ListNewslettersFragment listNewslettersFragment = new ListNewslettersFragment();
                         fragmentTransaction.replace(R.id.content, listNewslettersFragment);
                         fragmentTransaction.addToBackStack("Fragment");
                         fragmentTransaction.commit();
-                    }
-                    else
-                        Log.d("dddd","NULL");
+                    } else
+                        Log.d("dddd", "NULL");
                 }
 
                 @Override
                 public void onFailure(Call<User> call, Throwable t) {
-                    Log.d("error",t.getLocalizedMessage());
+                    Log.d("error", t.getLocalizedMessage());
                 }
             });
 
 
-        }
-        catch (Exception ex)
-        {
-            Log.d("error",ex.getLocalizedMessage());
+        } catch (Exception ex) {
+            Log.d("error", ex.getLocalizedMessage());
         }
 
     }

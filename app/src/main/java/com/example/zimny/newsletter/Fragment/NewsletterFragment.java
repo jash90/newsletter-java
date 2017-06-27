@@ -106,11 +106,11 @@ public class NewsletterFragment extends Fragment {
             //Log.d("dddd", String.valueOf(A));
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             Timestamp token_time = Timestamp.valueOf(Attributes.getLogin_token_exp());
-   //    if (timestamp.after(token_time))
-        //{
+     if (timestamp.after(token_time))
+      {
                 Attributes.refreshtoken();
-     //   }
-   //      else {
+      }
+        else {
                 BeinsuredClient beinsuredClient = ServiceGenerator.createServiceAuthtoken(BeinsuredClient.class, "beinsured","beinsu12");
                 Call<NewsletterContent> call = beinsuredClient.getNewsletter(id_newsletter);
                 call.enqueue(new Callback<NewsletterContent>() {
@@ -146,7 +146,7 @@ public class NewsletterFragment extends Fragment {
                         Log.d("onFailure", t.getLocalizedMessage());
                     }
                 });
-         //   }
+            }
         } catch (Exception ex) {
             Log.d("try", ex.getLocalizedMessage());
         }
